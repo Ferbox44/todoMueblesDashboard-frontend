@@ -1,0 +1,129 @@
+<main class="appointments-container">
+    <div class="appointments-header">
+        <h2>Calendario de Citas</h2>
+        <p-button label="Nueva Cita" icon="pi pi-plus" (onClick)="showDialog()" styleClass="p-button-rounded p-button-primary"></p-button>
+    </div>
+
+    <div class="appointments-content">
+        <div class="calendar-section">
+            <p-datePicker 
+                [(ngModel)]="selectedDate" 
+                [inline]="true"
+                [showWeek]="true"
+                [showTime]="false"
+                [showIcon]="true"
+                [readonlyInput]="true"
+                [selectOtherMonths]="true"
+                [showOtherMonths]="true"
+                (onSelect)="onDateSelect($event)"
+                class="appointment-calendar">
+            </p-datePicker>
+        </div>
+
+        <div class="appointments-list">
+            <h3>Citas para {{ selectedDate | date:'longDate' }}</h3>
+            <div class="appointments-grid">
+                <p-card *ngFor="let appointment of getAppointmentsForDate(selectedDate)" 
+                        class="appointment-card"
+                        [style]="{'margin-bottom': '1rem'}">
+                    <div class="appointment-header">
+                        <h4>{{ appointment.personalData.fullName }}</h4>
+                        <div class="appointment-actions">
+                            <button pButton icon="pi pi-pencil" 
+                                    class="p-button-rounded p-button-text" 
+                                    (click)="editAppointment(appointment)">
+                            </button>
+                            <button pButton icon="pi pi-trash" 
+                                    class="p-button-rounded p-button-text p-button-danger" 
+                                    (click)="deleteAppointment(appointment)">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="appointment-details">
+                        <p><i class="pi pi-clock"></i> {{ appointment.time }}</p>
+                        <p><i class="pi pi-phone"></i> {{ appointment.personalData.phone }}</p>
+                        <p><i class="pi pi-envelope"></i> {{ appointment.personalData.email }}</p>
+                        <p><i class="pi pi-home"></i> {{ appointment.address.street }} {{ appointment.address.number }}, {{ appointment.address.neighborhood }}</p>
+                        <p><i class="pi pi-tag"></i> {{ appointment.projectType }}</p>
+                        <p *ngIf="appointment.requirements"><i class="pi pi-comment"></i> {{ appointment.requirements }}</p>
+                    </div>
+                    <div class="appointment-status" [ngClass]="appointment.status">
+                        {{ appointment.status | titlecase }}
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Appointment Dialog -->
+<p-dialog 
+    [(visible)]="displayDialog" 
+    [style]="{width: '600px'}" 
+    header="Nueva Cita" 
+    [modal]="true" 
+    [draggable]="false" 
+    [resizable]="false">
+    <div class="dialog-content">
+        <h4>Datos Personales</h4>
+        <div class="field">
+            <label for="fullName">Nombre Completo</label>
+            <input id="fullName" type="text" pInputText [(ngModel)]="newAppointment.personalData.fullName" class="w-full">
+        </div>
+        <div class="field">
+            <label for="phone">Teléfono</label>
+            <input id="phone" type="tel" pInputText [(ngModel)]="newAppointment.personalData.phone" class="w-full">
+        </div>
+        <div class="field">
+            <label for="email">Correo Electrónico</label>
+            <input id="email" type="email" pInputText [(ngModel)]="newAppointment.personalData.email" class="w-full">
+        </div>
+
+        <h4>Tipo de Proyecto</h4>
+        <div class="field">
+            <label for="projectType">Seleccione el tipo de proyecto</label>
+            <p-dropdown id="projectType" 
+                       [options]="projectTypes" 
+                       [(ngModel)]="newAppointment.projectType"
+                       class="w-full">
+            </p-dropdown>
+        </div>
+
+        <h4>Dirección</h4>
+        <div class="field">
+            <label for="street">Calle</label>
+            <input id="street" type="text" pInputText [(ngModel)]="newAppointment.address.street" class="w-full">
+        </div>
+        <div class="field">
+            <label for="number">Número</label>
+            <input id="number" type="text" pInputText [(ngModel)]="newAppointment.address.number" class="w-full">
+        </div>
+        <div class="field">
+            <label for="zipCode">Código Postal</label>
+            <input id="zipCode" type="text" pInputText [(ngModel)]="newAppointment.address.zipCode" class="w-full">
+        </div>
+        <div class="field">
+            <label for="neighborhood">Colonia</label>
+            <input id="neighborhood" type="text" pInputText [(ngModel)]="newAppointment.address.neighborhood" class="w-full">
+        </div>
+
+        <h4>Detalles de la Cita</h4>
+        <div class="field">
+            <label for="date">Fecha Preferida</label>
+            <p-datePicker id="date" [(ngModel)]="newAppointment.date" [showTime]="false" [showIcon]="true"></p-datePicker>
+        </div>
+        <div class="field">
+            <label for="time">Hora Preferida</label>
+            <input id="time" type="time" pInputText [(ngModel)]="newAppointment.time" class="w-full">
+        </div>
+        <div class="field">
+            <label for="requirements">Requisitos Específicos (Opcional)</label>
+            <textarea id="requirements" pInputTextarea [(ngModel)]="newAppointment.requirements" rows="3" class="w-full"></textarea>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="displayDialog=false"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveAppointment()"></button>
+    </ng-template>
+</p-dialog>
+

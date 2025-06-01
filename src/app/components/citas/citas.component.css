@@ -1,0 +1,235 @@
+.appointments-container {
+    padding: 2rem;
+    background-color: #FEFDF9;
+    min-height: 100vh;
+}
+
+.appointments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.appointments-header h2 {
+    color: #1B1710;
+    margin: 0;
+}
+
+.appointments-content {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+}
+
+.calendar-section {
+    background-color: #FEFDF9;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.appointment-calendar {
+    width: 100%;
+}
+
+.appointments-list {
+    background-color: #FEFDF9;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.appointments-list h3 {
+    color: #1B1710;
+    margin-bottom: 1rem;
+}
+
+.appointment-card {
+    background-color: #EDDC94;
+    border: none;
+}
+
+.appointment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.appointment-header h4 {
+    color: #FEFDF9;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.appointment-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.appointment-details {
+    color: #FEFDF9;
+}
+
+.appointment-details p {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.appointment-details i {
+    font-size: 1rem;
+    width: 1.5rem;
+    text-align: center;
+}
+
+.appointment-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    color: #FEFDF9;
+}
+
+.appointment-status.scheduled {
+    background-color: rgba(254, 253, 249, 0.2);
+}
+
+.appointment-status.completed {
+    background-color: rgba(254, 253, 249, 0.3);
+}
+
+.appointment-status.cancelled {
+    background-color: rgba(254, 253, 249, 0.1);
+}
+
+/* Dialog Styles */
+.dialog-content {
+    padding: 1rem 0;
+}
+
+.dialog-content h4 {
+    color: #EDDC94;
+    margin: 1.5rem 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.dialog-content h4:first-child {
+    margin-top: 0;
+}
+
+.field {
+    margin-bottom: 1rem;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #FEFDF9;
+    font-weight: 500;
+}
+
+:host ::ng-deep .p-inputtext:enabled:focus{
+    border-color: #EDDC94;
+}
+
+.w-full {
+    width: 100%;
+}
+
+/* DatePicker Styles */
+:host ::ng-deep .p-datepicker {
+    background-color: #FEFDF9;
+    border: 1px solid #EDDC94;
+    border-radius: 8px;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header {
+    border-bottom: 1px solid #EDDC94;
+    padding: 1rem;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header button {
+    color: #FEFDF9;
+}
+
+:host ::ng-deep .p-datepicker-day-selected{
+    background-color: #EDDC94;
+    color: #1B1710;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header button:hover {
+    color: #EDDC94;
+}
+
+:host ::ng-deep .p-datepicker table td > span {
+    color: #FEFDF9;
+}
+
+:host ::ng-deep .p-datepicker table td > span.p-highlight {
+    background-color: #84704E;
+    color: #FEFDF9;
+}
+
+:host ::ng-deep .p-datepicker table td > span:not(.p-disabled):not(.p-highlight):hover {
+    background-color: #EDDC94;
+    color: #1B1710;
+}
+
+:host ::ng-deep .p-datepicker table td.p-datepicker-today > span {
+    background-color: #84704E;
+    color: #1B1710;
+    font-weight: bold;
+}
+
+:host ::ng-deep .p-datepicker table td.p-datepicker-today > span.p-highlight {
+    background-color: #EDDC94;
+    color: #FEFDF9;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .appointments-content {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-section {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .appointments-container {
+        padding: 1rem;
+    }
+
+    .appointments-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+
+:host ::ng-deep .p-button {
+    background-color: #84704E;
+    border-color: #84704E;
+    color: #FEFDF9;
+}
+
+:host ::ng-deep .p-button:hover {
+    background-color: #EDDC94;
+    border-color: #EDDC94;
+    color: #1B1710;
+}
+
+:host ::ng-deep .p-button .p-button-icon {
+    color: #FEFDF9;
+}
+
+:host ::ng-deep .p-button:hover .p-button-icon {
+    color: #1B1710;
+}
