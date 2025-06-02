@@ -1,22 +1,40 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
 import { CitasComponent } from './components/citas/citas.component';
+
 export const routes: Routes = [
-  { 
-    path: '', 
-    component: InicioComponent 
+  {
+    path: 'login',
+    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
   },
   {
-    path: 'inicio',
-    component: InicioComponent
-  },
-  {
-    path: 'estadisticas',
-    component: EstadisticasComponent
-  },
-  {
-    path: 'citas',
-    component: CitasComponent
+    path: '',
+    loadComponent: () => import('./components/layout/layout.component').then(m => m.LayoutComponent),
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
+      },
+      {
+        path: 'inicio',
+        component: InicioComponent
+      },
+      {
+        path: 'estadisticas',
+        component: EstadisticasComponent
+      },
+      {
+        path: 'citas',
+        component: CitasComponent
+      },
+      {
+        path: '',
+        redirectTo: 'inicio',
+        pathMatch: 'full'
+      }
+    ]
   }
 ];

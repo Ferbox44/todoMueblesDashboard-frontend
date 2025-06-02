@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
-
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,6 +11,8 @@ import { MenuItem } from 'primeng/api';
 })
 export class MenuComponent implements OnInit {
   items: MenuItem[] | undefined;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.items = [
@@ -61,7 +63,6 @@ export class MenuComponent implements OnInit {
                 label: 'Crear Nuevo',
                 icon: 'pi pi-plus'
               },
-
             ]
           },
           {
@@ -69,8 +70,12 @@ export class MenuComponent implements OnInit {
             icon: 'pi pi-pencil'
           }
         ]
+      },
+      {
+        label: 'Cerrar Sesión',
+        icon: 'pi pi-sign-out',
+        command: () => this.authService.logout()
       }
     ]
   }
-
 }

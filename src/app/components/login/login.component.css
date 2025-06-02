@@ -1,0 +1,169 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #FEFDF9;
+  padding: 1rem;
+}
+
+.logo{
+  width: 30dvh;
+  height: auto;
+  display: block;
+  margin: 0 auto 2rem auto;
+}
+
+.login-card {
+  background: #1B1710;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  backdrop-filter: blur(10px);
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.login-card h2 {
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #EDDC94;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.field {
+  margin-bottom: 1.75rem;
+}
+
+.field ::ng-deep .p-float-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.field ::ng-deep .p-float-label label {
+  color: #EDDC94;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.field ::ng-deep .p-float-label input,
+.field ::ng-deep .p-float-label .p-password input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.field ::ng-deep .p-float-label input:focus,
+.field ::ng-deep .p-float-label .p-password input:focus {
+  border-color: #EDDC94;
+  background-color: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.field ::ng-deep .p-float-label input.ng-invalid.ng-dirty,
+.field ::ng-deep .p-float-label .p-password input.ng-invalid.ng-dirty {
+  border-color: #e74c3c;
+  background-color: #fff5f5;
+}
+
+.field small.p-error {
+  display: block;
+  margin-top: 0.5rem;
+  color: #e74c3c;
+  font-size: 0.8rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.field ::ng-deep .p-password {
+  width: 100%;
+}
+
+.field ::ng-deep .p-password .p-password-input {
+  width: 100%;
+}
+
+.field ::ng-deep .p-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #EDDC94;
+  border: none;
+  border-radius: 8px;
+  color: #1B1710;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.field ::ng-deep .p-button:hover:not(:disabled) {
+  background: #caba76;
+  transform: translateY(-1px);
+}
+
+.field ::ng-deep .p-button:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.field ::ng-deep .p-button .p-button-icon {
+  font-size: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Toast customization */
+::ng-deep .p-toast {
+  z-index: 1000;
+}
+
+::ng-deep .p-toast .p-toast-message {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .p-toast .p-toast-message-content {
+  padding: 1rem;
+}
+
+::ng-deep .p-toast .p-toast-message-icon {
+  font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 2rem;
+  }
+
+  .login-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .field ::ng-deep .p-float-label input,
+  .field ::ng-deep .p-float-label .p-password input {
+    padding: 0.6rem 0.8rem;
+  }
+} 
