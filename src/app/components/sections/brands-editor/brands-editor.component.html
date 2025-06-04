@@ -1,0 +1,27 @@
+<div class="brands-editor">
+  <p-toast></p-toast>
+
+  <div class="p-fluid">
+    <div *ngFor="let brand of brands; let i = index" class="field">
+      <label>Brand {{i + 1}}</label>
+      <p-fileUpload
+        mode="basic"
+        [name]="'brandImage' + i"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        [chooseLabel]="'Upload Brand Image'"
+        (onUpload)="onImageUpload($event, i)"
+        [auto]="true"
+        [showUploadButton]="false"
+        [showCancelButton]="false">
+      </p-fileUpload>
+      <img *ngIf="brand.image" [src]="brand.image" alt="Brand Image" class="preview-image">
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="brand.name"
+        (ngModelChange)="onNameChange(i)"
+        placeholder="Enter brand name">
+    </div>
+  </div>
+</div> 

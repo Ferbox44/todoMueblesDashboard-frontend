@@ -1,0 +1,51 @@
+<div class="compare-editor">
+  <p-toast></p-toast>
+
+  <div class="p-fluid">
+    <!-- Before Image Upload -->
+    <div class="field">
+      <label for="beforeImage">Before Image</label>
+      <p-fileUpload
+        mode="basic"
+        name="beforeImage"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        chooseLabel="Upload Before Image"
+        (onUpload)="onBeforeImageUpload($event)"
+        [auto]="true"
+        [showUploadButton]="false"
+        [showCancelButton]="false">
+      </p-fileUpload>
+      <img *ngIf="compareSection.beforeImage" [src]="compareSection.beforeImage" alt="Before Image" class="preview-image">
+    </div>
+
+    <!-- After Image Upload -->
+    <div class="field">
+      <label for="afterImage">After Image</label>
+      <p-fileUpload
+        mode="basic"
+        name="afterImage"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        chooseLabel="Upload After Image"
+        (onUpload)="onAfterImageUpload($event)"
+        [auto]="true"
+        [showUploadButton]="false"
+        [showCancelButton]="false">
+      </p-fileUpload>
+      <img *ngIf="compareSection.afterImage" [src]="compareSection.afterImage" alt="After Image" class="preview-image">
+    </div>
+
+    <!-- Title -->
+    <div class="field">
+      <label for="title">Title</label>
+      <input
+        id="title"
+        type="text"
+        pInputText
+        [(ngModel)]="compareSection.title"
+        (ngModelChange)="onTitleChange()"
+        placeholder="Enter section title">
+    </div>
+  </div>
+</div> 

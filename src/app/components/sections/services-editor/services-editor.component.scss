@@ -1,0 +1,50 @@
+.services-editor {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .service-card {
+    .service-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .field {
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+    }
+
+    .preview-image {
+      max-width: 100%;
+      max-height: 200px;
+      margin-top: 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 0.5rem;
+      object-fit: contain;
+    }
+
+    ::ng-deep {
+      .p-fileupload-buttonbar {
+        padding: 0;
+      }
+    }
+  }
+} 

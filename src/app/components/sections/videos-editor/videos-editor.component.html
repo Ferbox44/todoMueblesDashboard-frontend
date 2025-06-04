@@ -1,0 +1,44 @@
+<div class="videos-editor">
+  <p-toast></p-toast>
+
+  <div class="p-fluid">
+    <div *ngFor="let video of videos; let i = index" class="field">
+      <label>Video {{i + 1}}</label>
+      <p-fileUpload
+        mode="basic"
+        [name]="'video' + i"
+        accept="video/*"
+        [maxFileSize]="10000000"
+        [chooseLabel]="'Upload Video ' + (i + 1)"
+        (onUpload)="onVideoUpload($event, i)"
+        [auto]="true"
+        [showUploadButton]="false"
+        [showCancelButton]="false">
+      </p-fileUpload>
+      <video *ngIf="video.url" [src]="video.url" controls class="preview-video"></video>
+      
+      <div class="field mt-2">
+        <label for="title{{i}}">Title</label>
+        <input
+          [id]="'title' + i"
+          type="text"
+          pInputText
+          [(ngModel)]="video.title"
+          (ngModelChange)="onVideoChange()"
+          placeholder="Enter video title">
+      </div>
+
+      <div class="field mt-2">
+        <label for="description{{i}}">Description</label>
+        <textarea
+          [id]="'description' + i"
+          pInputTextarea
+          [(ngModel)]="video.description"
+          (ngModelChange)="onVideoChange()"
+          placeholder="Enter video description"
+          rows="3">
+        </textarea>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,125 @@
+<div class="hero-editor">
+  <p-toast></p-toast>
+
+  <div class="p-fluid">
+    <div class="flex justify-content-between align-items-center mb-3">
+      <h2>Inicio</h2>
+      <div class="flex gap-2">
+        <button pButton label="Save" icon="pi pi-check" class="p-button-success" (click)="saveChanges()"></button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Left Column - Text Content -->
+      <div class="col-12 md:col-6">
+        <!-- Main Title -->
+        <div class="field mb-3">
+          <label for="mainTitle" class="block mb-2">Main Title</label>
+          <input
+            id="mainTitle"
+            type="text"
+            pInputText
+            [(ngModel)]="heroContent.mainTitle"
+            placeholder="Enter main title"
+            class="w-full">
+        </div>
+      </div>
+
+      <!-- Right Column - Media Uploads -->
+      <div class="col-12 md:col-6">
+        <!-- Logo Upload -->
+        <div class="field mb-3">
+          <label for="logo" class="block mb-2">Logo</label>
+          <div class="upload-container">
+            <div class="flex gap-2 mb-2">
+              <p-fileUpload
+                mode="basic"
+                name="logo"
+                accept="image/*"
+                [maxFileSize]="1000000"
+                chooseLabel="Upload New Logo"
+                (onUpload)="onLogoUpload($event)"
+                [auto]="true"
+                [showUploadButton]="false"
+                [showCancelButton]="false">
+              </p-fileUpload>
+              <button pButton 
+                label="Select from Uploaded" 
+                icon="pi pi-images" 
+                (click)="openImageSelector('logo')"
+                class="p-button-secondary">
+              </button>
+            </div>
+            <div class="preview-container" *ngIf="heroContent.logo">
+              <img [src]="heroContent.logo" 
+                   alt="Current Logo" 
+                   class="preview-image">
+              <div class="preview-overlay">
+                <span class="preview-label">Current Logo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Background Image Upload -->
+        <div class="field mb-3">
+          <label for="background" class="block mb-2">Background Image</label>
+          <div class="upload-container">
+            <div class="flex gap-2 mb-2">
+              <p-fileUpload
+                mode="basic"
+                name="background"
+                accept="image/*"
+                [maxFileSize]="1000000"
+                chooseLabel="Upload New Background"
+                (onUpload)="onBackgroundUpload($event)"
+                [auto]="true"
+                [showUploadButton]="false"
+                [showCancelButton]="false">
+              </p-fileUpload>
+              <button pButton 
+                label="Select from Uploaded" 
+                icon="pi pi-images" 
+                (click)="openImageSelector('background')"
+                class="p-button-secondary">
+              </button>
+            </div>
+            <div class="preview-container" *ngIf="heroContent.backgroundImage">
+              <img [src]="heroContent.backgroundImage" 
+                   alt="Current Background" 
+                   class="preview-image">
+              <div class="preview-overlay">
+                <span class="preview-label">Current Background</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Selector Dialog -->
+  <p-dialog 
+    [(visible)]="showImageSelector" 
+    [style]="{width: '80vw'}" 
+    [maximizable]="true"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [header]="'Select ' + (currentImageType === 'logo' ? 'Logo' : 'Background') + ' Image'">
+    <div class="image-grid">
+      <div *ngFor="let image of uploadedImages" 
+           class="image-item" 
+           (click)="selectImage(image)">
+        <p-image 
+          [src]="image.url" 
+          [preview]="true"
+          [alt]="'Uploaded image'"
+          width="200"
+          height="200"
+          styleClass="w-full h-full object-cover">
+        </p-image>
+      </div>
+    </div>
+  </p-dialog>
+</div> 

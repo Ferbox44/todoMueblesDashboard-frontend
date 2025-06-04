@@ -3,6 +3,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
 import { CitasComponent } from './components/citas/citas.component';
+import { SectionsComponent } from './components/sections/sections.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,14 @@ export const routes: Routes = [
       {
         path: 'citas',
         component: CitasComponent
+      },
+      {
+        path: 'secciones',
+        component: SectionsComponent
+      },
+      {
+        path: 'upload',
+        loadComponent: () => import('./components/file-upload/file-upload.component').then(m => m.FileUploadComponent)
       },
       {
         path: '',

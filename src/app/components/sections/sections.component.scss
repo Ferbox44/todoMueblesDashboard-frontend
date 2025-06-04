@@ -1,0 +1,22 @@
+.sections-container {
+  padding: 2rem;
+  position: relative;
+  min-height: 400px;
+
+  ::ng-deep {
+    .p-tabview {
+      .p-tabview-panels {
+        padding: 2rem 0;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .p-progressspinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+} 

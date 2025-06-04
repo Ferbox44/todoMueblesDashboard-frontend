@@ -37,7 +37,8 @@ export class MenuComponent implements OnInit {
         items: [
           {
             label: 'Inicio',
-            icon: 'pi pi-bolt'
+            icon: 'pi pi-bolt',
+            routerLink: '/secciones'
           },
           {
             label: 'Servicios',

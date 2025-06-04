@@ -1,0 +1,51 @@
+<div class="sections-container">
+  <p-toast></p-toast>
+  
+  <p-tabView [(activeIndex)]="activeTab">
+    <!-- Hero Section -->
+    <p-tabPanel header="Hero Section">
+      <app-hero-editor
+        [heroContent]="landingPageContent?.content?.hero || { logo: '', backgroundImage: '', mainTitle: '' }"
+        (update)="onHeroUpdate($event)">
+      </app-hero-editor>
+    </p-tabPanel>
+
+    <!-- Services Carousel -->
+    <p-tabPanel header="Services Carousel">
+      <app-services-editor
+        *ngIf="landingPageContent"
+        [services]="landingPageContent.content.servicesCarousel"
+        (update)="onServicesUpdate($event)">
+      </app-services-editor>
+    </p-tabPanel>
+
+    <!-- Videos -->
+    <p-tabPanel header="Videos">
+      <app-videos-editor
+        *ngIf="landingPageContent"
+        [videos]="landingPageContent.content.videos"
+        (update)="onVideosUpdate($event)">
+      </app-videos-editor>
+    </p-tabPanel>
+
+    <!-- Compare Section -->
+    <p-tabPanel header="Compare Section">
+      <app-compare-editor
+        *ngIf="landingPageContent"
+        [compareSection]="landingPageContent.content.compareSection"
+        (update)="onCompareUpdate($event)">
+      </app-compare-editor>
+    </p-tabPanel>
+
+    <!-- Brands Carousel -->
+    <p-tabPanel header="Brands Carousel">
+      <app-brands-editor
+        *ngIf="landingPageContent"
+        [brands]="landingPageContent.content.brandsCarousel"
+        (update)="onBrandsUpdate($event)">
+      </app-brands-editor>
+    </p-tabPanel>
+  </p-tabView>
+
+  <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+</div> 

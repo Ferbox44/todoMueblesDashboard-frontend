@@ -1,0 +1,67 @@
+<div class="services-editor">
+  <p-toast></p-toast>
+
+  <div class="p-fluid">
+    <div class="header">
+      <h2>Services Carousel</h2>
+      <p-button 
+        icon="pi pi-plus" 
+        label="Add Service" 
+        (onClick)="addService()"
+        styleClass="p-button-success">
+      </p-button>
+    </div>
+
+    <div class="services-grid">
+      <p-card *ngFor="let service of services; let i = index" class="service-card">
+        <div class="service-content">
+          <!-- Service Image -->
+          <div class="field">
+            <label>Service Image</label>
+            <p-fileUpload
+              mode="basic"
+              [name]="'service-image-' + i"
+              accept="image/*"
+              [maxFileSize]="1000000"
+              chooseLabel="Upload Image"
+              (onUpload)="onImageUpload($event, service)"
+              [auto]="true"
+              [showUploadButton]="false"
+              [showCancelButton]="false">
+            </p-fileUpload>
+            <img *ngIf="service.image" [src]="service.image" alt="Service Image" class="preview-image">
+          </div>
+
+          <!-- Service Title -->
+          <div class="field">
+            <label>Title</label>
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="service.title"
+              (ngModelChange)="onServiceChange()"
+              placeholder="Enter service title">
+          </div>
+
+          <!-- Service Link -->
+          <div class="field">
+            <label>Link</label>
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="service.link"
+              (ngModelChange)="onServiceChange()"
+              placeholder="Enter service link">
+          </div>
+
+          <!-- Remove Button -->
+          <p-button
+            icon="pi pi-trash"
+            styleClass="p-button-danger"
+            (onClick)="removeService(i)">
+          </p-button>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div> 
