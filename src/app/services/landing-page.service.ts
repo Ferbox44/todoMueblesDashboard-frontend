@@ -21,7 +21,7 @@ export class LandingPageService {
   }
 
   updateHeroSection(heroContent: LandingPageContent['hero']): Observable<LandingPageSection> {
-    return this.http.patch<LandingPageSection>(`${this.apiUrl}/hero`, heroContent);
+    return this.http.post<LandingPageSection>(`${this.apiUrl}/hero`, heroContent);
   }
 
   updateServicesCarousel(services: LandingPageContent['servicesCarousel']): Observable<LandingPageSection> {

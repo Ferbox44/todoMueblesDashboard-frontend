@@ -123,3 +123,21 @@
     }
   }
 } 
+
+.upload-section {
+  margin-bottom: 1rem;
+  
+  .upload-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}
+
+.save-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--surface-border);
+  display: flex;
+  justify-content: flex-end;
+} 

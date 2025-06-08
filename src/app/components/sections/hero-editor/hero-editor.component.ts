@@ -36,6 +36,8 @@ export class HeroEditorComponent implements OnInit {
   uploadedImages: ImageItem[] = [];
   showImageSelector = false;
   currentImageType: 'logo' | 'background' | null = null;
+  selectedFile: File | null = null;
+  isUploading = false;
 
   constructor(
     private landingPageService: LandingPageService,
@@ -66,7 +68,7 @@ export class HeroEditorComponent implements OnInit {
   openImageSelector(type: 'logo' | 'background') {
     this.currentImageType = type;
     this.showImageSelector = true;
-    this.loadImages(); // Refresh the image list
+    this.loadImages();
   }
 
   selectImage(image: ImageItem) {
@@ -76,7 +78,7 @@ export class HeroEditorComponent implements OnInit {
       this.heroContent.backgroundImage = image.url;
     }
     this.showImageSelector = false;
-    this.saveChanges();
+    //this.saveChanges();
   }
 
   saveChanges() {
@@ -100,55 +102,45 @@ export class HeroEditorComponent implements OnInit {
     });
   }
 
-  onLogoUpload(event: any) {
-    const file = event.files[0];
-    if (file) {
-      this.uploadService.uploadFile(file).subscribe({
-        next: (response) => {
-          this.heroContent.logo = response.url;
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Logo uploaded successfully'
-          });
-          this.loadImages(); // Refresh the image list
-          this.saveChanges();
-        },
-        error: (error) => {
-          console.error('Error uploading logo:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to upload logo'
-          });
-        }
-      });
-    }
+  onFileSelect(event: any) {
+    this.selectedFile = event.files[0];
   }
 
-  onBackgroundUpload(event: any) {
-    const file = event.files[0];
-    if (file) {
-      this.uploadService.uploadFile(file).subscribe({
+  uploadSelectedFile() {
+    if (!this.selectedFile) return;
+
+    this.isUploading = true;
+    this.uploadService.uploadFile(this.selectedFile).subscribe({
         next: (response) => {
+        if (this.currentImageType === 'logo') {
+          this.heroContent.logo = response.url;
+        } else if (this.currentImageType === 'background') {
           this.heroContent.backgroundImage = response.url;
+        }
+        
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Background image uploaded successfully'
+          detail: 'Image uploaded successfully'
           });
-          this.loadImages(); // Refresh the image list
-          this.saveChanges();
+        
+        this.loadImages();
+        this.selectedFile = null;
+        this.isUploading = false;
         },
         error: (error) => {
-          console.error('Error uploading background:', error);
+        console.error('Error uploading file:', error);
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to upload background image'
+          detail: 'Failed to upload image'
           });
+        this.isUploading = false;
         }
       });
     }
+
+  cancelUpload() {
+    this.selectedFile = null;
   }
 } 

@@ -2,12 +2,6 @@
   <p-toast></p-toast>
 
   <div class="p-fluid">
-    <div class="flex justify-content-between align-items-center mb-3">
-      <h2>Inicio</h2>
-      <div class="flex gap-2">
-        <button pButton label="Save" icon="pi pi-check" class="p-button-success" (click)="saveChanges()"></button>
-      </div>
-    </div>
 
     <div class="grid">
       <!-- Left Column - Text Content -->
@@ -31,24 +25,43 @@
         <div class="field mb-3">
           <label for="logo" class="block mb-2">Logo</label>
           <div class="upload-container">
-            <div class="flex gap-2 mb-2">
+            <div class="upload-section">
+              <div class="flex gap-2">
               <p-fileUpload
                 mode="basic"
-                name="logo"
-                accept="image/*"
-                [maxFileSize]="1000000"
-                chooseLabel="Upload New Logo"
-                (onUpload)="onLogoUpload($event)"
-                [auto]="true"
+                [auto]="false"
+                  [showCancelButton]="true"
                 [showUploadButton]="false"
-                [showCancelButton]="false">
-              </p-fileUpload>
+                  [accept]="'image/*'"
+                  (onSelect)="onFileSelect($event)"
+                  chooseLabel="Choose Image"
+                  [disabled]="isUploading"
+                ></p-fileUpload>
               <button pButton 
                 label="Select from Uploaded" 
                 icon="pi pi-images" 
                 (click)="openImageSelector('logo')"
-                class="p-button-secondary">
+                  class="p-button-secondary"
+                  [disabled]="isUploading">
               </button>
+              </div>
+
+              <div *ngIf="selectedFile" class="upload-actions">
+                <p-button
+                  label="Upload to S3"
+                  icon="pi pi-upload"
+                  (onClick)="uploadSelectedFile()"
+                  [loading]="isUploading"
+                  [disabled]="isUploading"
+                ></p-button>
+                <p-button
+                  label="Cancel"
+                  icon="pi pi-times"
+                  (onClick)="cancelUpload()"
+                  [disabled]="isUploading"
+                  severity="secondary"
+                ></p-button>
+              </div>
             </div>
             <div class="preview-container" *ngIf="heroContent.logo">
               <img [src]="heroContent.logo" 
@@ -65,24 +78,43 @@
         <div class="field mb-3">
           <label for="background" class="block mb-2">Background Image</label>
           <div class="upload-container">
-            <div class="flex gap-2 mb-2">
+            <div class="upload-section">
+              <div class="flex gap-2">
               <p-fileUpload
                 mode="basic"
-                name="background"
-                accept="image/*"
-                [maxFileSize]="1000000"
-                chooseLabel="Upload New Background"
-                (onUpload)="onBackgroundUpload($event)"
-                [auto]="true"
+                  [auto]="false"
+                  [showCancelButton]="true"
                 [showUploadButton]="false"
-                [showCancelButton]="false">
-              </p-fileUpload>
+                  [accept]="'image/*'"
+                  (onSelect)="onFileSelect($event)"
+                  chooseLabel="Choose Image"
+                  [disabled]="isUploading"
+                ></p-fileUpload>
               <button pButton 
                 label="Select from Uploaded" 
                 icon="pi pi-images" 
                 (click)="openImageSelector('background')"
-                class="p-button-secondary">
+                  class="p-button-secondary"
+                  [disabled]="isUploading">
               </button>
+              </div>
+
+              <div *ngIf="selectedFile" class="upload-actions">
+                <p-button
+                  label="Upload to S3"
+                  icon="pi pi-upload"
+                  (onClick)="uploadSelectedFile()"
+                  [loading]="isUploading"
+                  [disabled]="isUploading"
+                ></p-button>
+                <p-button
+                  label="Cancel"
+                  icon="pi pi-times"
+                  (onClick)="cancelUpload()"
+                  [disabled]="isUploading"
+                  severity="secondary"
+                ></p-button>
+              </div>
             </div>
             <div class="preview-container" *ngIf="heroContent.backgroundImage">
               <img [src]="heroContent.backgroundImage" 
@@ -95,6 +127,15 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="save-section">
+      <p-button
+        label="Save Section"
+        icon="pi pi-save"
+        (onClick)="saveChanges()"
+        [disabled]="isUploading"
+      ></p-button>
     </div>
   </div>
 

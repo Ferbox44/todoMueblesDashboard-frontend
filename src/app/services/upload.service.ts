@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface ImageItem {
@@ -17,13 +17,27 @@ export class UploadService {
   constructor(private http: HttpClient) {}
 
   uploadFile(file: File): Observable<{ url: string }> {
+    console.log('Starting file upload:', file.name, 'Size:', file.size, 'Type:', file.type);
     const formData = new FormData();
     formData.append('file', file);
+    //formData.append('type', 'image');
 
-    return this.http.post<{ url: string }>(this.apiUrl, formData);
+    console.log('Sending request to:', this.apiUrl);
+    return this.http.post<{ url: string }>(this.apiUrl, formData).pipe(
+      tap({
+        next: (response) => console.log('Upload successful:', response),
+        error: (error) => console.error('Upload failed:', error)
+      })
+    );
   }
 
   listImages(): Observable<{ images: ImageItem[] }> {
-    return this.http.get<{ images: ImageItem[] }>(`${this.apiUrl}/images`);
+    console.log('Fetching images from:', `${this.apiUrl}/images`);
+    return this.http.get<{ images: ImageItem[] }>(`${this.apiUrl}/images`).pipe(
+      tap({
+        next: (response) => console.log('Images fetched successfully:', response),
+        error: (error) => console.error('Failed to fetch images:', error)
+      })
+    );
   }
 } 
