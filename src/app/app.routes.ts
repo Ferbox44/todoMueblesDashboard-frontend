@@ -4,6 +4,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
 import { CitasComponent } from './components/citas/citas.component';
 import { SectionsComponent } from './components/sections/sections.component';
+import { ServiceDetailEditorComponent } from './components/sections/service-detail-editor/service-detail-editor.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,10 @@ export const routes: Routes = [
       {
         path: 'upload',
         loadComponent: () => import('./components/file-upload/file-upload.component').then(m => m.FileUploadComponent)
+      },
+      {
+        path: 'secciones/:id',
+        component: ServiceDetailEditorComponent
       },
       {
         path: '',

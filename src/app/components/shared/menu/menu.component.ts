@@ -29,7 +29,7 @@ export class MenuComponent implements OnInit {
     this.landingPageService.getLandingPageContent().subscribe({
       next: (content) => {
         const services = content.content.servicesCarousel || [];
-        
+        console.log(services);
         this.items = [
           {
             label: 'Inicio',
@@ -62,7 +62,7 @@ export class MenuComponent implements OnInit {
                   ...services.map(service => ({
                     label: service.title,
                     icon: 'pi pi-crown',
-                    routerLink: ['/' + service.link]
+                    routerLink: ['/secciones/' + service.id]
                   })),
                   {
                     label: 'Crear Nuevo',

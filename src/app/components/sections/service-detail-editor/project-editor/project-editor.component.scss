@@ -1,0 +1,192 @@
+.project-editor {
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+
+      &:focus {
+        outline: none;
+        border-color: #2196F3;
+      }
+    }
+  }
+
+  .image-preview {
+    margin: 1rem 0;
+    max-width: 300px;
+    
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+  }
+
+  .materials-section,
+  .accessories-section {
+    margin: 2rem 0;
+
+    h3 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+
+    .image-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .image-actions {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      .image-preview-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 0.5rem;
+        transition: opacity 0.2s;
+        opacity: 0;
+
+        .preview-label {
+          color: white;
+          font-size: 0.9rem;
+        }
+      }
+
+      &:hover {
+        .image-actions,
+        .image-preview-overlay {
+          opacity: 1;
+        }
+      }
+    }
+
+    .add-image {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+
+      &:hover {
+        border-color: #2196F3;
+      }
+    }
+  }
+
+  .actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+  }
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .upload-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+
+  .preview-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+
+    .preview-image {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .preview-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 0.5rem;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+
+      .preview-label {
+        color: white;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .image-item {
+      position: relative;
+      aspect-ratio: 1;
+      cursor: pointer;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+} 

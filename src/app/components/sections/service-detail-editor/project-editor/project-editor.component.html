@@ -1,0 +1,125 @@
+<div class="project-editor">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input id="title" type="text" pInputText [(ngModel)]="project.title" />
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea id="description" pInputTextarea [(ngModel)]="project.description" rows="4"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="image">Main Image</label>
+    <div class="image-preview" *ngIf="project.image">
+      <img [src]="project.image" alt="Project main image" />
+      <div class="image-preview-overlay">
+        <span class="preview-label">Main Image</span>
+      </div>
+    </div>
+    <p-button label="Change Image" (click)="currentImageType = 'main'; showImageSelector = true"></p-button>
+  </div>
+
+  <div class="materials-section">
+    <h3>Materials</h3>
+    <div class="image-grid">
+      <div class="image-item" *ngFor="let image of materialImages; let i = index">
+        <img [src]="image.url" [alt]="image.title" />
+        <div class="image-actions">
+          <p-button icon="pi pi-trash" (click)="removeImage(i)" severity="danger"></p-button>
+        </div>
+        <div class="image-preview-overlay">
+          <span class="preview-label">Material {{i + 1}}</span>
+        </div>
+      </div>
+      <div class="add-image">
+        <p-button icon="pi pi-plus" (click)="currentImageType = 'material'; showImageSelector = true"></p-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="accessories-section">
+    <h3>Accessories</h3>
+    <div class="image-grid">
+      <div class="image-item" *ngFor="let image of accessoryImages; let i = index">
+        <img [src]="image.url" [alt]="image.title" />
+        <div class="image-actions">
+          <p-button icon="pi pi-trash" (click)="removeImage(i)" severity="danger"></p-button>
+        </div>
+        <div class="image-preview-overlay">
+          <span class="preview-label">Accessory {{i + 1}}</span>
+        </div>
+      </div>
+      <div class="add-image">
+        <p-button icon="pi pi-plus" (click)="currentImageType = 'accessory'; showImageSelector = true"></p-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <p-button label="Save Changes" (click)="saveChanges()" severity="success"></p-button>
+    <p-button label="Delete Project" (click)="deleteProject()" severity="danger"></p-button>
+  </div>
+</div>
+
+<p-dialog [(visible)]="showImageSelector" [style]="{width: '50vw'}" [modal]="true">
+  <ng-template pTemplate="header">
+    <h3>Select Image</h3>
+  </ng-template>
+  <div class="upload-container">
+    <div class="upload-section">
+      <div class="flex gap-2">
+        <p-fileUpload
+          mode="basic"
+          [auto]="false"
+          [showCancelButton]="true"
+          [showUploadButton]="false"
+          [accept]="'image/*'"
+          (onSelect)="onFileSelect($event)"
+          chooseLabel="Choose Image"
+          [disabled]="isUploading"
+        ></p-fileUpload>
+        <button pButton 
+          label="Select from Uploaded" 
+          icon="pi pi-images" 
+          (click)="openImageSelector(currentImageType || 'material')"
+          class="p-button-secondary"
+          [disabled]="isUploading">
+        </button>
+      </div>
+
+      <div *ngIf="selectedFile" class="upload-actions">
+        <p-button
+          label="Upload to S3"
+          icon="pi pi-upload"
+          (onClick)="uploadSelectedFile()"
+          [loading]="isUploading"
+          [disabled]="isUploading"
+        ></p-button>
+        <p-button
+          label="Cancel"
+          icon="pi pi-times"
+          (onClick)="cancelUpload()"
+          [disabled]="isUploading"
+          severity="secondary"
+        ></p-button>
+      </div>
+    </div>
+    <div class="preview-container" *ngIf="project.image">
+      <img [src]="project.image" 
+           alt="Current Image" 
+           class="preview-image">
+      <div class="preview-overlay">
+        <span class="preview-label">Current Image</span>
+      </div>
+    </div>
+    <div class="image-grid" *ngIf="uploadedImages.length > 0">
+      <div class="image-item" *ngFor="let image of uploadedImages">
+        <img [src]="image.url" [alt]="image.key" (click)="selectImage(image)" />
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog> 
