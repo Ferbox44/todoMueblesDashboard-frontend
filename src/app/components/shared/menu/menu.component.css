@@ -1,0 +1,14 @@
+.menu-container {
+  position: relative;
+  width: 100%;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--surface-ground);
+  border-radius: 6px;
+  min-height: 60px;
+}

@@ -1,15 +1,26 @@
 <div class="services-editor">
   <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
   <div class="p-fluid">
     <div class="header">
-      <h2>Services Carousel</h2>
-      <p-button 
-        icon="pi pi-plus" 
-        label="Add Service" 
-        (onClick)="addService()"
-        styleClass="p-button-success">
-      </p-button>
+      <h2>Carousel de Servicios</h2>
+      <div class="header-actions">
+        <p-button 
+          icon="pi pi-plus" 
+          label="Agregar Servicio" 
+          (onClick)="addService()"
+          styleClass="p-button-success"
+          [disabled]="loading || saving">
+        </p-button>
+        <p-button 
+          icon="pi pi-save" 
+          label="Guardar Cambios" 
+          (onClick)="saveChanges()"
+          styleClass="p-button-primary"
+          [disabled]="loading || saving">
+        </p-button>
+      </div>
     </div>
 
     <div class="services-grid">
@@ -17,51 +28,100 @@
         <div class="service-content">
           <!-- Service Image -->
           <div class="field">
-            <label>Service Image</label>
-            <p-fileUpload
-              mode="basic"
-              [name]="'service-image-' + i"
-              accept="image/*"
-              [maxFileSize]="1000000"
-              chooseLabel="Upload Image"
-              (onUpload)="onImageUpload($event, service)"
-              [auto]="true"
-              [showUploadButton]="false"
-              [showCancelButton]="false">
-            </p-fileUpload>
-            <img *ngIf="service.image" [src]="service.image" alt="Service Image" class="preview-image">
+            <label>Imagen <span class="required">*</span></label>
+            <div class="image-upload-container">
+              <div class="upload-section">
+                <div class="flex gap-2">
+                <p-fileUpload
+                  mode="basic"
+                  [auto]="false"
+                    [showCancelButton]="true"
+                  [showUploadButton]="false"
+                    [accept]="'image/*'"
+                    (onSelect)="onFileSelect($event)"
+                    chooseLabel="Elegir Imagen"
+                    [disabled]="isUploading"
+                  ></p-fileUpload>
+                <button pButton 
+                  label="Elegir de las Imágenes Cargadas" 
+                  icon="pi pi-images" 
+                  (click)="openImageSelector(i)"
+                    class="p-button-secondary"
+                    [disabled]="isUploading">
+                </button>
+                </div>
+  
+                <div *ngIf="selectedFile" class="upload-actions">
+                  <p-button
+                    label="Cargar a S3"
+                    icon="pi pi-upload"
+                    (onClick)="uploadSelectedFile()"
+                    [loading]="isUploading"
+                    [disabled]="isUploading"
+                  ></p-button>
+                  <p-button
+                    label="Cancelar"
+                    icon="pi pi-times"
+                    (onClick)="cancelUpload()"
+                    [disabled]="isUploading"
+                    severity="secondary"
+                  ></p-button>
+                </div>
+              </div>
+              <div class="image-preview" *ngIf="service.image">
+                <img [src]="service.image" alt="Service Image" class="preview-image">
+                <div class="image-overlay">
+                  <i class="pi pi-image"></i>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Service Title -->
           <div class="field">
-            <label>Title</label>
+            <label>Título <span class="required">*</span></label>
             <input
               type="text"
               pInputText
               [(ngModel)]="service.title"
               (ngModelChange)="onServiceChange()"
-              placeholder="Enter service title">
+              placeholder="Ingrese el título del servicio"
+              [disabled]="loading || saving"
+              [class.p-invalid]="!service.title">
           </div>
 
-          <!-- Service Link -->
-          <div class="field">
-            <label>Link</label>
-            <input
-              type="text"
-              pInputText
-              [(ngModel)]="service.link"
-              (ngModelChange)="onServiceChange()"
-              placeholder="Enter service link">
-          </div>
+          
 
           <!-- Remove Button -->
           <p-button
             icon="pi pi-trash"
             styleClass="p-button-danger"
-            (onClick)="removeService(i)">
+            (onClick)="removeService(i)"
+            [disabled]="loading || saving">
           </p-button>
         </div>
       </p-card>
     </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" *ngIf="loading || saving">
+      <p-progressSpinner></p-progressSpinner>
+      <span>{{ saving ? 'Saving changes...' : 'Uploading image...' }}</span>
+    </div>
   </div>
+
+  <!-- Image Selector Dialog -->
+  <p-dialog
+    header="Select Image"
+    [(visible)]="showImageSelector"
+    [style]="{width: '80vw'}"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false">
+    <div class="image-grid">
+      <div *ngFor="let image of uploadedImages" class="image-item" (click)="selectImage(image)">
+        <p-image [src]="image.url" alt="Uploaded image" [preview]="true"></p-image>
+      </div>
+    </div>
+  </p-dialog>
 </div> 

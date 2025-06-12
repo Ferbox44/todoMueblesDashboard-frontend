@@ -1,1 +1,6 @@
-<p-menubar [model]="items" />
+<div class="menu-container">
+  <p-menubar [model]="items" *ngIf="!loading"></p-menubar>
+  <!-- <div class="loading-container" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+  </div> -->
+</div>

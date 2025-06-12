@@ -31,8 +31,7 @@
     <!-- Compare Section -->
     <p-tabPanel header="Compare Section">
       <app-compare-editor
-        *ngIf="landingPageContent"
-        [compareSection]="landingPageContent.content.compareSection"
+        [compareSection]="landingPageContent?.content?.compareSection || { beforeImage: '', afterImage: '' }"
         (update)="onCompareUpdate($event)">
       </app-compare-editor>
     </p-tabPanel>

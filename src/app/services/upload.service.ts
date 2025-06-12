@@ -8,6 +8,11 @@ export interface ImageItem {
   key: string;
 }
 
+export interface VideoItem {
+  url: string;
+  key: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +42,16 @@ export class UploadService {
       tap({
         next: (response) => console.log('Images fetched successfully:', response),
         error: (error) => console.error('Failed to fetch images:', error)
+      })
+    );
+  }
+
+  listVideos(): Observable<{ videos: VideoItem[] }> {
+    console.log('Fetching videos from:', `${this.apiUrl}/videos`);
+    return this.http.get<{ videos: VideoItem[] }>(`${this.apiUrl}/videos`).pipe(
+      tap({
+        next: (response) => console.log('Videos fetched successfully:', response),
+        error: (error) => console.error('Failed to fetch videos:', error)
       })
     );
   }

@@ -11,6 +11,8 @@ import { VideosEditorComponent } from './videos-editor/videos-editor.component';
 import { ServicesEditorComponent } from './services-editor/services-editor.component';
 import { CompareEditorComponent } from './compare-editor/compare-editor.component';
 import { BrandsEditorComponent } from './brands-editor/brands-editor.component';
+import { ConfirmationService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-sections',
@@ -24,11 +26,11 @@ import { BrandsEditorComponent } from './brands-editor/brands-editor.component';
     VideosEditorComponent,
     ServicesEditorComponent,
     CompareEditorComponent,
-    BrandsEditorComponent
+    BrandsEditorComponent,
   ],
   templateUrl: './sections.component.html',
   styleUrls: ['./sections.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class SectionsComponent implements OnInit {
   landingPageContent: LandingPageSection | null = null;

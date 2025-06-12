@@ -6,14 +6,14 @@ export interface MediaItem {
 }
 
 export interface ServiceCard {
-  id: string;
+  id?: string;
   title: string;
   image: string;
   link: string;
 }
 
 export interface VideoItem {
-  id: string;
+  id?: string;
   url: string;
   title?: string;
   description?: string;

@@ -1,44 +1,135 @@
 <div class="videos-editor">
   <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
   <div class="p-fluid">
-    <div *ngFor="let video of videos; let i = index" class="field">
-      <label>Video {{i + 1}}</label>
+    <div class="header">
+      <h2>Sección de Videos</h2>
+      <div class="header-actions">
+        <p-button 
+          icon="pi pi-save" 
+          label="Save Changes" 
+          (onClick)="saveChanges()"
+          styleClass="p-button-primary"
+          [disabled]="loading || saving">
+        </p-button>
+      </div>
+    </div>
+
+    <div class="videos-grid">
+      <p-card *ngFor="let video of videos; let i = index" class="video-card">
+        <div class="video-content">
+          <h3>Video {{i + 1}}</h3>
+          
+          <!-- Video Upload -->
+          <div class="field">
+            <label>Video <span class="required">*</span></label>
+            <div class="upload-container">
+              <div class="upload-section">
+                <div class="flex gap-2">
       <p-fileUpload
         mode="basic"
-        [name]="'video' + i"
+                    [auto]="false"
+                    [showCancelButton]="true"
+                    [showUploadButton]="false"
+                    [name]="'video-' + i"
         accept="video/*"
-        [maxFileSize]="10000000"
-        [chooseLabel]="'Upload Video ' + (i + 1)"
-        (onUpload)="onVideoUpload($event, i)"
-        [auto]="true"
-        [showUploadButton]="false"
-        [showCancelButton]="false">
+                    [maxFileSize]="50000000"
+                    (onSelect)="onFileSelect($event)"
+                    chooseLabel="Choose Video"
+                    [disabled]="loading || saving">
       </p-fileUpload>
-      <video *ngIf="video.url" [src]="video.url" controls class="preview-video"></video>
-      
-      <div class="field mt-2">
-        <label for="title{{i}}">Title</label>
+                  <button pButton 
+                    label="Select from Uploaded" 
+                    icon="pi pi-video" 
+                    (click)="openVideoSelector(i)"
+                    class="p-button-secondary"
+                    [disabled]="loading || saving">
+                  </button>
+                </div>
+
+                <div *ngIf="selectedFile" class="upload-actions">
+                  <p-button
+                    label="Upload to S3"
+                    icon="pi pi-upload"
+                    (onClick)="uploadSelectedFile()"
+                    [loading]="loading"
+                    [disabled]="loading || saving"
+                  ></p-button>
+                  <p-button
+                    label="Cancel"
+                    icon="pi pi-times"
+                    (onClick)="cancelUpload()"
+                    [disabled]="loading || saving"
+                    severity="secondary"
+                  ></p-button>
+                </div>
+              </div>
+              <div class="video-preview" *ngIf="video.url">
+                <video [src]="video.url" controls class="preview-video"></video>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video Title -->
+          <div class="field">
+            <label>Title</label>
         <input
-          [id]="'title' + i"
           type="text"
           pInputText
           [(ngModel)]="video.title"
-          (ngModelChange)="onVideoChange()"
-          placeholder="Enter video title">
+              placeholder="Enter video title"
+              [disabled]="loading || saving">
       </div>
 
-      <div class="field mt-2">
-        <label for="description{{i}}">Description</label>
+          <!-- Video Description -->
+          <div class="field">
+            <label>Description</label>
         <textarea
-          [id]="'description' + i"
           pInputTextarea
           [(ngModel)]="video.description"
-          (ngModelChange)="onVideoChange()"
           placeholder="Enter video description"
-          rows="3">
+              [rows]="3"
+              [disabled]="loading || saving">
         </textarea>
       </div>
+
+          <!-- Remove Button -->
+          <p-button
+            icon="pi pi-trash"
+            styleClass="p-button-danger"
+            (onClick)="removeVideo(i)"
+            [disabled]="loading || saving">
+          </p-button>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" *ngIf="loading || saving">
+      <p-progressSpinner></p-progressSpinner>
+      <span>{{ saving ? 'Saving changes...' : 'Uploading video...' }}</span>
     </div>
   </div>
+
+  <!-- Video Selector Dialog -->
+  <p-dialog 
+    [(visible)]="showVideoSelector" 
+    [style]="{width: '80vw'}" 
+    [maximizable]="true"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="Select Video">
+    <div class="video-grid">
+      <div *ngFor="let video of uploadedVideos" 
+           class="video-item" 
+           (click)="selectVideo(video)">
+        <video [src]="video.url" class="preview-video"></video>
+        <div class="video-overlay">
+          <span class="video-label">{{ video.title || 'Untitled Video' }}</span>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
 </div> 

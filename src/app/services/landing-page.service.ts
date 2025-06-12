@@ -16,8 +16,12 @@ export class LandingPageService {
     private uploadService: UploadService
   ) {}
 
+  // getLandingPageContent(): Observable<LandingPageSection> {
+  //   return this.http.get<LandingPageSection>(`${this.apiUrl}/content`);
+  // }
+
   getLandingPageContent(): Observable<LandingPageSection> {
-    return this.http.get<LandingPageSection>(`${this.apiUrl}/content`);
+    return this.http.get<LandingPageSection>(this.apiUrl);
   }
 
   updateHeroSection(heroContent: LandingPageContent['hero']): Observable<LandingPageSection> {
@@ -25,19 +29,23 @@ export class LandingPageService {
   }
 
   updateServicesCarousel(services: LandingPageContent['servicesCarousel']): Observable<LandingPageSection> {
-    return this.http.patch<LandingPageSection>(`${this.apiUrl}/services`, services);
+    return this.http.post<LandingPageSection>(`${this.apiUrl}/services`, services);
   }
 
   updateVideos(videos: LandingPageContent['videos']): Observable<LandingPageSection> {
-    return this.http.patch<LandingPageSection>(`${this.apiUrl}/videos`, videos);
+    return this.http.post<LandingPageSection>(`${this.apiUrl}/videos`, videos);
   }
 
   updateCompareSection(compareSection: LandingPageContent['compareSection']): Observable<LandingPageSection> {
-    return this.http.patch<LandingPageSection>(`${this.apiUrl}/compare`, compareSection);
+    return this.http.post<LandingPageSection>(`${this.apiUrl}/compare`, compareSection);
   }
 
-  updateBrandsCarousel(brands: LandingPageContent['brandsCarousel']): Observable<LandingPageSection> {
-    return this.http.patch<LandingPageSection>(`${this.apiUrl}/brands`, brands);
+  updateBrandsCarousel(brands: { name: string; image: string; logo?: string }[]): Observable<LandingPageSection> {
+    return this.http.post<LandingPageSection>(`${this.apiUrl}/brands`, brands);
+  }
+
+  updateSection(section: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${section}`, data);
   }
 
   // File upload methods

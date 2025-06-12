@@ -1,27 +1,139 @@
 <div class="brands-editor">
   <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
   <div class="p-fluid">
-    <div *ngFor="let brand of brands; let i = index" class="field">
-      <label>Brand {{i + 1}}</label>
-      <p-fileUpload
-        mode="basic"
-        [name]="'brandImage' + i"
-        accept="image/*"
-        [maxFileSize]="1000000"
-        [chooseLabel]="'Upload Brand Image'"
-        (onUpload)="onImageUpload($event, i)"
-        [auto]="true"
-        [showUploadButton]="false"
-        [showCancelButton]="false">
-      </p-fileUpload>
-      <img *ngIf="brand.image" [src]="brand.image" alt="Brand Image" class="preview-image">
-      <input
-        type="text"
-        pInputText
-        [(ngModel)]="brand.name"
-        (ngModelChange)="onNameChange(i)"
-        placeholder="Enter brand name">
+    <div class="header">
+      <h2>Brands Carousel</h2>
+      <div class="header-actions">
+        <p-button 
+          icon="pi pi-plus" 
+          label="Add Brand" 
+          (onClick)="addBrand()"
+          styleClass="p-button-success"
+          [disabled]="loading || saving">
+        </p-button>
+      </div>
+    </div>
+
+    <div class="brands-grid">
+      <p-card *ngFor="let brand of brands; let i = index" class="brand-card">
+        <div class="brand-content">
+          <h3>Brand {{i + 1}}</h3>
+          
+          <!-- Brand Image Upload -->
+          <div class="field">
+            <label>Brand Image <span class="required">*</span></label>
+            <div class="upload-container">
+              <div class="upload-section">
+                <div class="flex gap-2">
+                  <p-fileUpload
+                    mode="basic"
+                    [auto]="false"
+                    [showCancelButton]="true"
+                    [showUploadButton]="false"
+                    [name]="'brand-' + i"
+                    accept="image/*"
+                    [maxFileSize]="1000000"
+                    (onSelect)="onFileSelect($event, i)"
+                    chooseLabel="Choose Image"
+                    [disabled]="loading || saving">
+                  </p-fileUpload>
+                  <button pButton 
+                    label="Select from Uploaded" 
+                    icon="pi pi-images" 
+                    (click)="openImageSelector(i)"
+                    class="p-button-secondary"
+                    [disabled]="loading || saving">
+                  </button>
+                </div>
+
+                <div *ngIf="selectedFile" class="upload-actions">
+                  <p-button
+                    label="Upload to S3"
+                    icon="pi pi-upload"
+                    (onClick)="uploadSelectedFile()"
+                    [loading]="loading"
+                    [disabled]="loading || saving"
+                  ></p-button>
+                  <p-button
+                    label="Cancel"
+                    icon="pi pi-times"
+                    (onClick)="cancelUpload()"
+                    [disabled]="loading || saving"
+                    severity="secondary"
+                  ></p-button>
+                </div>
+              </div>
+              <div class="preview-container" *ngIf="brand.image">
+                <img [src]="brand.image" [alt]="brand.name" class="preview-image">
+                <div class="preview-overlay">
+                  <span class="preview-label">Current Brand Image</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brand Name -->
+          <div class="field">
+            <label>Brand Name <span class="required">*</span></label>
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="brand.name"
+              placeholder="Enter brand name"
+              [disabled]="loading || saving">
+          </div>
+
+          <!-- Remove Button -->
+          <p-button
+            icon="pi pi-trash"
+            styleClass="p-button-danger"
+            (onClick)="removeBrand(i)"
+            [disabled]="loading || saving">
+          </p-button>
+        </div>
+      </p-card>
+    </div>
+
+    <div class="save-section">
+      <p-button
+        label="Save Section"
+        icon="pi pi-save"
+        (onClick)="saveChanges()"
+        [disabled]="loading || saving"
+      ></p-button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" *ngIf="loading || saving">
+      <!-- <p-progressSpinner></p-progressSpinner> -->
+      <span>{{ saving ? 'Saving changes...' : 'Uploading image...' }}</span>
     </div>
   </div>
+
+  <!-- Image Selector Dialog -->
+  <p-dialog 
+    [(visible)]="showImageSelector" 
+    [style]="{width: '80vw'}" 
+    [maximizable]="true"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="Select Brand Image">
+    <div class="image-grid">
+      <div *ngFor="let image of uploadedImages" 
+           class="image-item" 
+           (click)="selectImage(image)">
+        <p-image 
+          [src]="image.url" 
+          [preview]="true"
+          [alt]="'Uploaded image'"
+          width="200"
+          height="200"
+          styleClass="w-full h-full object-contain">
+        </p-image>
+      </div>
+    </div>
+  </p-dialog>
 </div> 
