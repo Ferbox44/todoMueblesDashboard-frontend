@@ -4,7 +4,7 @@
   <div class="p-fluid">
     <!-- Before Image Upload -->
     <div class="field">
-      <label for="beforeImage">Before Image</label>
+      <label for="beforeImage">Imagen anterior</label>
       <div class="upload-container">
         <div class="upload-section">
           <div class="flex gap-2">
@@ -17,11 +17,11 @@
               accept="image/*"
               [maxFileSize]="5000000"
               (onSelect)="onFileSelect($event, 'before')"
-              chooseLabel="Choose Image"
+              chooseLabel="Elegir imagen"
               [disabled]="loading || saving">
             </p-fileUpload>
             <button pButton 
-              label="Select from Uploaded" 
+              label="Elegir imagen" 
               icon="pi pi-images" 
               (click)="openImageSelector('before')"
               class="p-button-secondary"
@@ -31,14 +31,14 @@
 
           <div *ngIf="selectedFile" class="upload-actions">
             <p-button
-              label="Upload to S3"
+              label="Subir a S3"
               icon="pi pi-upload"
               (onClick)="uploadSelectedFile()"
               [loading]="loading"
               [disabled]="loading || saving"
             ></p-button>
             <p-button
-              label="Cancel"
+              label="Cancelar"
               icon="pi pi-times"
               (onClick)="cancelUpload()"
               [disabled]="loading || saving"
@@ -49,7 +49,7 @@
         <div class="preview-container" *ngIf="compareSection.beforeImage">
           <img [src]="compareSection.beforeImage" alt="Before Image" class="preview-image">
           <div class="preview-overlay">
-            <span class="preview-label">Current Before Image</span>
+            <span class="preview-label">Imagen anterior actual</span>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
 
     <!-- After Image Upload -->
     <div class="field">
-      <label for="afterImage">After Image</label>
+      <label for="afterImage">Imagen posterior</label>
       <div class="upload-container">
         <div class="upload-section">
           <div class="flex gap-2">
@@ -70,11 +70,11 @@
               accept="image/*"
               [maxFileSize]="5000000"
               (onSelect)="onFileSelect($event, 'after')"
-              chooseLabel="Choose Image"
+              chooseLabel="Elegir imagen"
               [disabled]="loading || saving">
             </p-fileUpload>
             <button pButton 
-              label="Select from Uploaded" 
+              label="Elegir imagen" 
               icon="pi pi-images" 
               (click)="openImageSelector('after')"
               class="p-button-secondary"
@@ -84,14 +84,14 @@
 
           <div *ngIf="selectedFile" class="upload-actions">
             <p-button
-              label="Upload to S3"
+              label="Subir a S3"
               icon="pi pi-upload"
               (onClick)="uploadSelectedFile()"
               [loading]="loading"
               [disabled]="loading || saving"
             ></p-button>
             <p-button
-              label="Cancel"
+              label="Cancelar"
               icon="pi pi-times"
               (onClick)="cancelUpload()"
               [disabled]="loading || saving"
@@ -102,7 +102,7 @@
         <div class="preview-container" *ngIf="compareSection.afterImage">
           <img [src]="compareSection.afterImage" alt="After Image" class="preview-image">
           <div class="preview-overlay">
-            <span class="preview-label">Current After Image</span>
+            <span class="preview-label">Imagen posterior actual</span>
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@
 
     <div class="save-section">
       <p-button
-        label="Save Section"
+        label="Guardar sección"
         icon="pi pi-save"
         (onClick)="saveChanges()"
         [disabled]="loading || saving"
@@ -128,7 +128,7 @@
     [modal]="true"
     [draggable]="false"
     [resizable]="false"
-    [header]="'Select ' + (currentImageType === 'before' ? 'Before' : 'After') + ' Image'">
+    [header]="'Elegir ' + (currentImageType === 'before' ? 'Imagen anterior' : 'Imagen posterior')">
     <div class="image-grid">
       <div *ngFor="let image of uploadedImages" 
            class="image-item" 
@@ -136,10 +136,10 @@
         <p-image 
           [src]="image.url" 
           [preview]="true"
-          [alt]="'Uploaded image'"
+          [alt]="'Imagen subida'"
           width="200"
           height="200"
-          styleClass="w-full h-full object-contain">
+          styleClass="w-full h-full object-cover">
         </p-image>
       </div>
     </div>

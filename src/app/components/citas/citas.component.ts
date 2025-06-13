@@ -7,6 +7,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { AppointmentsService, Appointment } from '../../services/appointments.service';
 
 type ProjectType = 'Cocina' | 'Clóset' | 'Vestidores' | 'Muebles de baño' | 'Diseño de interiores' | 'Otro';
 
@@ -17,19 +20,10 @@ interface Address {
   neighborhood: string;
 }
 
-interface Appointment {
-  id: number;
-  personalData: {
-    fullName: string;
-    phone: string;
-    email: string;
-  };
+interface AppointmentFormData extends Omit<Appointment, 'id' | 'status' | 'createdAt' | 'updatedAt'> {
   projectType: ProjectType;
   address: Address;
-  date: Date;
-  time: string;
   requirements?: string;
-  status: 'scheduled' | 'completed' | 'cancelled';
 }
 
 @Component({
@@ -45,15 +39,17 @@ interface Appointment {
     DialogModule,
     InputTextModule,
     FormsModule,
-    DropdownModule
-  ]
+    DropdownModule,
+    ToastModule
+  ],
+  providers: [MessageService]
 })
-
 export class CitasComponent implements OnInit {
-
   appointments: Appointment[] = [];
   selectedDate: Date = new Date();
   displayDialog: boolean = false;
+  loading: boolean = false;
+  
   projectTypes: ProjectType[] = [
     'Cocina',
     'Clóset',
@@ -62,15 +58,13 @@ export class CitasComponent implements OnInit {
     'Diseño de interiores',
     'Otro'
   ];
-  
 
-  newAppointment: Appointment = {
-    id: 0,
-    personalData: {
-      fullName: '',
-      phone: '',
-      email: ''
-    },
+  newAppointment: AppointmentFormData = {
+    name: '',
+    email: '',
+    phone: '',
+    date: new Date(),
+    time: '',
     projectType: 'Cocina',
     address: {
       street: '',
@@ -78,101 +72,168 @@ export class CitasComponent implements OnInit {
       zipCode: '',
       neighborhood: ''
     },
-    date: new Date(),
-    time: '',
-    status: 'scheduled'
+    message: ''
   };
 
-  ngOnInit() {
-    // Mock data for development
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of day
-    
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-    
-    this.appointments = [
-      {
-        id: 1,
-        personalData: {
-          fullName: 'Juan Pérez',
-          phone: '555-0123',
-          email: 'juan@email.com'
-        },
-        projectType: 'Cocina',
-        address: {
-          street: 'Av. Reforma',
-          number: '123',
-          zipCode: '06500',
-          neighborhood: 'Centro'
-        },
-        date: new Date(today),
-        time: '10:00',
-        status: 'scheduled',
-        requirements: 'Diseño de cocina integral con isla'
-      },
-      {
-        id: 2,
-        personalData: {
-          fullName: 'María García',
-          phone: '555-0124',
-          email: 'maria@email.com'
-        },
-        projectType: 'Clóset',
-        address: {
-          street: 'Calle Juárez',
-          number: '456',
-          zipCode: '06600',
-          neighborhood: 'Roma'
-        },
-        date: new Date(tomorrow),
-        time: '15:30',
-        status: 'scheduled',
-        requirements: 'Clóset walk-in con espejo'
-      }
-    ];
+  editingAppointmentId: string | null = null;
 
-    // Set initial selected date to today
-    this.selectedDate = new Date(today);
+  constructor(
+    private appointmentsService: AppointmentsService,
+    private messageService: MessageService
+  ) {}
+
+  ngOnInit() {
+    this.loadAppointments();
+  }
+
+  loadAppointments() {
+    this.loading = true;
+    this.appointmentsService.getAll().subscribe({
+      next: (appointments) => {
+        this.appointments = appointments;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading appointments:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al cargar las citas'
+        });
+        this.loading = false;
+      }
+    });
   }
 
   showDialog() {
     this.displayDialog = true;
   }
 
-  saveAppointment() {
-    if (this.newAppointment.id === 0) {
-      // Add new appointment
-      this.newAppointment.id = this.appointments.length + 1;
-      this.appointments.push({...this.newAppointment});
-    } else {
-      // Update existing appointment
-      const index = this.appointments.findIndex(a => a.id === this.newAppointment.id);
-      if (index !== -1) {
-        this.appointments[index] = {...this.newAppointment};
-      }
-    }
-    this.displayDialog = false;
-    this.resetNewAppointment();
-  }
-
   editAppointment(appointment: Appointment) {
-    this.newAppointment = {...appointment};
+    this.editingAppointmentId = appointment.id || null;
+    this.newAppointment = {
+      name: appointment.name,
+      email: appointment.email,
+      phone: appointment.phone,
+      date: new Date(appointment.date),
+      time: appointment.time,
+      projectType: appointment.projectType,
+      address: { ...appointment.address },
+      message: appointment.message
+    };
     this.displayDialog = true;
   }
 
+  saveAppointment() {
+    if (!this.validateAppointment()) {
+      return;
+    }
+
+    this.loading = true;
+    const appointmentData: Appointment = {
+      ...this.newAppointment,
+      status: 'Nuevo'
+    };
+
+    if (this.editingAppointmentId) {
+      // Update existing appointment
+      this.appointmentsService.update(this.editingAppointmentId, appointmentData).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Cita actualizada correctamente'
+          });
+          this.displayDialog = false;
+          this.resetNewAppointment();
+          this.loadAppointments();
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error updating appointment:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error al actualizar la cita'
+          });
+          this.loading = false;
+        }
+      });
+    } else {
+      // Create new appointment
+      this.appointmentsService.create(appointmentData).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Cita agendada correctamente'
+          });
+          this.displayDialog = false;
+          this.resetNewAppointment();
+          this.loadAppointments();
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error creating appointment:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error al agendar la cita'
+          });
+          this.loading = false;
+        }
+      });
+    }
+  }
+
+  private validateAppointment(): boolean {
+    if (!this.newAppointment.name || !this.newAppointment.email || !this.newAppointment.phone || 
+        !this.newAppointment.date || !this.newAppointment.time || !this.newAppointment.projectType ||
+        !this.newAppointment.address.street || !this.newAppointment.address.number || 
+        !this.newAppointment.address.zipCode || !this.newAppointment.address.neighborhood) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error de validación',
+        detail: 'Por favor complete todos los campos requeridos'
+      });
+      return false;
+    }
+    return true;
+  }
+
   deleteAppointment(appointment: Appointment) {
-    this.appointments = this.appointments.filter(a => a.id !== appointment.id);
+    if (!appointment.id) return;
+    
+    this.loading = true;
+    this.appointmentsService.delete(appointment.id).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Cita eliminada correctamente'
+        });
+        this.loadAppointments();
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error deleting appointment:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al eliminar la cita'
+        });
+        this.loading = false;
+      }
+    });
   }
 
   private resetNewAppointment() {
     this.newAppointment = {
-      id: 0,
-      personalData: {
-        fullName: '',
-        phone: '',
-        email: ''
-      },
+      name: '',
+      email: '',
+      phone: '',
+      date: new Date(),
+      time: '',
       projectType: 'Cocina',
       address: {
         street: '',
@@ -180,33 +241,16 @@ export class CitasComponent implements OnInit {
         zipCode: '',
         neighborhood: ''
       },
-      date: new Date(),
-      time: '',
-      status: 'scheduled'
+      message: ''
     };
+    this.editingAppointmentId = null;
   }
 
   getAppointmentsForDate(date: Date): Appointment[] {
     if (!date) return [];
     return this.appointments.filter(appointment => 
-      this.isSameDay(appointment.date, date)
+      this.isSameDay(new Date(appointment.date), date)
     );
-  }
-
-  getDatesWithAppointments(): Date[] {
-    return this.appointments.map(appointment => appointment.date);
-  }
-
-  hasAppointmentOnDate(date: Date): boolean {
-    if (!date) return false;
-    return this.appointments.some(appointment => 
-      this.isSameDay(appointment.date, date)
-    );
-  }
-
-  isSelectedDate(date: Date): boolean {
-    if (!date) return false;
-    return this.isSameDay(this.selectedDate, date);
   }
 
   private isSameDay(date1: Date, date2: Date): boolean {

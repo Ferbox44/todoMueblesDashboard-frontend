@@ -3,7 +3,7 @@
   
   <p-tabView [(activeIndex)]="activeTab">
     <!-- Hero Section -->
-    <p-tabPanel header="Hero Section">
+    <p-tabPanel header="Sección Principal">
       <app-hero-editor
         [heroContent]="landingPageContent?.content?.hero || { logo: '', backgroundImage: '', mainTitle: '' }"
         (update)="onHeroUpdate($event)">
@@ -11,7 +11,7 @@
     </p-tabPanel>
 
     <!-- Services Carousel -->
-    <p-tabPanel header="Services Carousel">
+    <p-tabPanel header="Carousel de Servicios">
       <app-services-editor
         *ngIf="landingPageContent"
         [services]="landingPageContent.content.servicesCarousel"
@@ -29,7 +29,7 @@
     </p-tabPanel>
 
     <!-- Compare Section -->
-    <p-tabPanel header="Compare Section">
+    <p-tabPanel header="Sección de Comparación">
       <app-compare-editor
         [compareSection]="landingPageContent?.content?.compareSection || { beforeImage: '', afterImage: '' }"
         (update)="onCompareUpdate($event)">
@@ -37,7 +37,7 @@
     </p-tabPanel>
 
     <!-- Brands Carousel -->
-    <p-tabPanel header="Brands Carousel">
+    <p-tabPanel header="Carousel de Marcas">
       <app-brands-editor
         *ngIf="landingPageContent"
         [brands]="landingPageContent.content.brandsCarousel"

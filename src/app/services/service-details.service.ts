@@ -64,7 +64,7 @@ export class ServiceDetailsService {
   }
 
   deleteProject(projectId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${projectId}/projects`);
+    return this.http.delete<void>(`${this.apiUrl}/projects/${projectId}`);
   }
 
   addProjectImage(projectId: string, image: Partial<ProjectImage>): Observable<ProjectImage> {

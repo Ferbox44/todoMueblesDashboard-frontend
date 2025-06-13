@@ -59,7 +59,7 @@ export class HeroEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load images'
+          detail: 'Error al cargar las imágenes'
         });
       }
     });
@@ -86,8 +86,8 @@ export class HeroEditorComponent implements OnInit {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Hero section updated successfully'
+          summary: 'Exito',
+          detail: 'Sección actualizada correctamente'
         });
         this.update.emit(this.heroContent);
       },
@@ -96,7 +96,7 @@ export class HeroEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update hero section'
+          detail: 'Error al actualizar la sección'
         });
       }
     });
@@ -121,7 +121,7 @@ export class HeroEditorComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-          detail: 'Image uploaded successfully'
+          detail: 'Imagen subida correctamente'
           });
         
         this.loadImages();
@@ -133,7 +133,7 @@ export class HeroEditorComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-          detail: 'Failed to upload image'
+          detail: 'Error al subir la imagen'
           });
         this.isUploading = false;
         }

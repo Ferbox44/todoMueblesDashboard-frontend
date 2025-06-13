@@ -65,7 +65,7 @@ export class BrandsEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load images'
+          detail: 'Error al cargar las imágenes'
         });
       }
     });
@@ -91,7 +91,7 @@ export class BrandsEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Image uploaded successfully'
+          detail: 'Imagen subida correctamente'
         });
         this.loading = false;
         this.selectedFile = null;
@@ -102,7 +102,7 @@ export class BrandsEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to upload image'
+          detail: 'Error al subir la imagen'
         });
         this.loading = false;
       }
@@ -138,7 +138,7 @@ export class BrandsEditorComponent implements OnInit {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Please add at least one brand'
+        detail: 'Por favor, agregue al menos una marca'
       });
       return;
     }
@@ -149,7 +149,7 @@ export class BrandsEditorComponent implements OnInit {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'All brands must have a name and image'
+        detail: 'Todas las marcas deben tener un nombre y una imagen'
       });
       return;
     }
@@ -167,8 +167,8 @@ export class BrandsEditorComponent implements OnInit {
         next: () => {
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Brands section updated successfully'
+            summary: 'Exito',
+            detail: 'Sección de marcas actualizada correctamente'
           });
           this.saving = false;
         },
@@ -177,7 +177,7 @@ export class BrandsEditorComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to update brands section'
+            detail: 'Error al actualizar la sección de marcas'
           });
           this.saving = false;
         }

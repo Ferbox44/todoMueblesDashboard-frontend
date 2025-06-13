@@ -8,13 +8,13 @@
       <div class="col-12 md:col-6">
         <!-- Main Title -->
         <div class="field mb-3">
-          <label for="mainTitle" class="block mb-2">Main Title</label>
+          <label for="mainTitle" class="block mb-2">Título Principal</label>
           <input
             id="mainTitle"
             type="text"
             pInputText
             [(ngModel)]="heroContent.mainTitle"
-            placeholder="Enter main title"
+            placeholder="Ingrese el título principal"
             class="w-full">
         </div>
       </div>
@@ -23,7 +23,7 @@
       <div class="col-12 md:col-6">
         <!-- Logo Upload -->
         <div class="field mb-3">
-          <label for="logo" class="block mb-2">Logo</label>
+          <label for="logo" class="block mb-2">Logo de la empresa</label>
           <div class="upload-container">
             <div class="upload-section">
               <div class="flex gap-2">
@@ -34,11 +34,11 @@
                 [showUploadButton]="false"
                   [accept]="'image/*'"
                   (onSelect)="onFileSelect($event)"
-                  chooseLabel="Choose Image"
+                  chooseLabel="Elegir imagen"
                   [disabled]="isUploading"
                 ></p-fileUpload>
               <button pButton 
-                label="Select from Uploaded" 
+                label="Elegir imagen" 
                 icon="pi pi-images" 
                 (click)="openImageSelector('logo')"
                   class="p-button-secondary"
@@ -48,14 +48,14 @@
 
               <div *ngIf="selectedFile" class="upload-actions">
                 <p-button
-                  label="Upload to S3"
+                  label="Subir a S3"
                   icon="pi pi-upload"
                   (onClick)="uploadSelectedFile()"
                   [loading]="isUploading"
                   [disabled]="isUploading"
                 ></p-button>
                 <p-button
-                  label="Cancel"
+                  label="Cancelar"
                   icon="pi pi-times"
                   (onClick)="cancelUpload()"
                   [disabled]="isUploading"
@@ -68,7 +68,7 @@
                    alt="Current Logo" 
                    class="preview-image">
               <div class="preview-overlay">
-                <span class="preview-label">Current Logo</span>
+                <span class="preview-label">Logo actual</span>
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@
 
         <!-- Background Image Upload -->
         <div class="field mb-3">
-          <label for="background" class="block mb-2">Background Image</label>
+          <label for="background" class="block mb-2">Imagen de fondo</label>
           <div class="upload-container">
             <div class="upload-section">
               <div class="flex gap-2">
@@ -87,11 +87,11 @@
                 [showUploadButton]="false"
                   [accept]="'image/*'"
                   (onSelect)="onFileSelect($event)"
-                  chooseLabel="Choose Image"
+                  chooseLabel="Elegir imagen"
                   [disabled]="isUploading"
                 ></p-fileUpload>
               <button pButton 
-                label="Select from Uploaded" 
+                label="Elegir imagen" 
                 icon="pi pi-images" 
                 (click)="openImageSelector('background')"
                   class="p-button-secondary"
@@ -101,14 +101,14 @@
 
               <div *ngIf="selectedFile" class="upload-actions">
                 <p-button
-                  label="Upload to S3"
+                  label="Subir a S3"
                   icon="pi pi-upload"
                   (onClick)="uploadSelectedFile()"
                   [loading]="isUploading"
                   [disabled]="isUploading"
                 ></p-button>
                 <p-button
-                  label="Cancel"
+                  label="Cancelar"
                   icon="pi pi-times"
                   (onClick)="cancelUpload()"
                   [disabled]="isUploading"
@@ -121,7 +121,7 @@
                    alt="Current Background" 
                    class="preview-image">
               <div class="preview-overlay">
-                <span class="preview-label">Current Background</span>
+                <span class="preview-label">Imagen de fondo actual</span>
               </div>
             </div>
           </div>
@@ -131,7 +131,7 @@
 
     <div class="save-section">
       <p-button
-        label="Save Section"
+        label="Guardar sección"
         icon="pi pi-save"
         (onClick)="saveChanges()"
         [disabled]="isUploading"
@@ -147,7 +147,7 @@
     [modal]="true"
     [draggable]="false"
     [resizable]="false"
-    [header]="'Select ' + (currentImageType === 'logo' ? 'Logo' : 'Background') + ' Image'">
+    [header]="'Elegir ' + (currentImageType === 'logo' ? 'Logo' : 'Imagen de fondo')">
     <div class="image-grid">
       <div *ngFor="let image of uploadedImages" 
            class="image-item" 
@@ -155,7 +155,7 @@
         <p-image 
           [src]="image.url" 
           [preview]="true"
-          [alt]="'Uploaded image'"
+          [alt]="'Imagen subida'"
           width="200"
           height="200"
           styleClass="w-full h-full object-cover">

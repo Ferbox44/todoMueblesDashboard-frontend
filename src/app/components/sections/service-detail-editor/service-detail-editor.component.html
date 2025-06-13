@@ -9,27 +9,27 @@
 
   <ng-container *ngIf="serviceDetail && !loading && !error">
     <div class="form-group">
-      <label for="title">Title</label>
+      <label for="title">Título</label>
       <input id="title" type="text" pInputText [(ngModel)]="serviceDetail.title" />
     </div>
 
     <div class="form-group">
-      <label for="subtitle">Subtitle</label>
+      <label for="subtitle">Subtítulo</label>
       <input id="subtitle" type="text" pInputText [(ngModel)]="serviceDetail.subtitle" />
     </div>
 
     <div class="form-group">
-      <label for="backgroundImage">Background Image</label>
+      <label for="backgroundImage">Imagen de fondo</label>
       <div class="image-preview" *ngIf="serviceDetail.backgroundImage">
         <img [src]="serviceDetail.backgroundImage" alt="Background" />
       </div>
-      <p-button label="Change Image" (click)="showImageSelector = true"></p-button>
+      <p-button label="Cambiar imagen" (click)="showImageSelector = true"></p-button>
     </div>
 
     <div class="projects-section">
       <div class="section-header">
-        <h2>Projects</h2>
-        <p-button label="Add Project" (click)="addProject()"></p-button>
+        <h2>Proyectos</h2>
+        <p-button label="Agregar proyecto" (click)="addProject()"></p-button>
       </div>
 
       <div class="projects-grid">
@@ -41,8 +41,8 @@
             <h3>{{ project.title }}</h3>
             <p>{{ project.description }}</p>
             <div class="project-stats">
-              <span>{{ getMaterialCount(project) }} Materials</span>
-              <span>{{ getAccessoryCount(project) }} Accessories</span>
+              <span>{{ getMaterialCount(project) }} Materiales</span>
+              <span>{{ getAccessoryCount(project) }} Accesorios</span>
             </div>
           </div>
           <div class="project-actions">
@@ -53,14 +53,14 @@
     </div>
 
     <div class="actions">
-      <p-button label="Save Changes" (click)="saveChanges()" [loading]="saving"></p-button>
+      <p-button label="Guardar cambios" (click)="saveChanges()" [loading]="saving"></p-button>
     </div>
   </ng-container>
 </div>
 
 <p-dialog [(visible)]="showImageSelector" [style]="{width: '50vw'}" [modal]="true">
   <ng-template pTemplate="header">
-    <h3>Select Image</h3>
+  <h3>Elegir imagen</h3>
   </ng-template>
   <div class="upload-container">
     <div class="upload-section">
@@ -72,11 +72,11 @@
           [showUploadButton]="false"
           [accept]="'image/*'"
           (onSelect)="onFileSelect($event)"
-          chooseLabel="Choose Image"
+          chooseLabel="Elegir imagen"
           [disabled]="isUploading"
         ></p-fileUpload>
         <button pButton 
-          label="Select from Uploaded" 
+          label="Elegir imagen" 
           icon="pi pi-images" 
           (click)="loadImages()"
           class="p-button-secondary"
@@ -86,14 +86,14 @@
 
       <div *ngIf="selectedFile" class="upload-actions">
         <p-button
-          label="Upload to S3"
+          label="Subir a S3"
           icon="pi pi-upload"
           (onClick)="uploadSelectedFile()"
           [loading]="isUploading"
           [disabled]="isUploading"
         ></p-button>
         <p-button
-          label="Cancel"
+          label="Cancelar"
           icon="pi pi-times"
           (onClick)="cancelUpload()"
           [disabled]="isUploading"
@@ -113,7 +113,7 @@
            alt="Current Background Image" 
            class="preview-image">
       <div class="preview-overlay">
-        <span class="preview-label">Current Background Image</span>
+        <span class="preview-label">Imagen de fondo actual</span>
       </div>
     </div>
   </div>
@@ -121,7 +121,7 @@
 
 <p-dialog [(visible)]="showProjectEditor" [style]="{width: '80vw'}" [modal]="true">
   <ng-template pTemplate="header">
-    <h3>{{ selectedProject?.id ? 'Edit Project' : 'Add Project' }}</h3>
+    <h3>{{ selectedProject?.id ? 'Editar proyecto' : 'Agregar proyecto' }}</h3>
   </ng-template>
   <app-project-editor
     *ngIf="selectedProject"

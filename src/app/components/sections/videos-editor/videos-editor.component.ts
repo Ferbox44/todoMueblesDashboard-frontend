@@ -40,7 +40,7 @@ export class VideosEditorComponent implements OnInit {
   loading = false;
   saving = false;
   showVideoSelector = false;
-  currentVideoIndex: number = 0;
+  currentVideoIndex: number | null = null;
   selectedFile: File | null = null;
   uploadedVideos: VideoItem[] = [];
 
@@ -79,7 +79,7 @@ export class VideosEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load videos'
+          detail: 'Error al cargar los videos'
         });
         this.loading = false;
       }
@@ -96,7 +96,7 @@ export class VideosEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load uploaded videos'
+          detail: 'Error al cargar los videos subidos'
         });
       }
     });
@@ -107,56 +107,65 @@ export class VideosEditorComponent implements OnInit {
   }
 
   openVideoSelector(index: number) {
+    console.log('Opening video selector for index:', index);
+    console.log('Current videos state:', this.videos);
     this.currentVideoIndex = index;
     this.showVideoSelector = true;
   }
 
+  selectVideo(video: VideoItem) {
+    if (this.currentVideoIndex !== null) {
+      // Directly update the video at the current index
+      this.videos[this.currentVideoIndex] = {
+        ...this.videos[this.currentVideoIndex],
+        url: video.url
+      };
+      this.showVideoSelector = false;
+      this.currentVideoIndex = null;
+    }
+  }
+
   uploadSelectedFile() {
-    if (!this.selectedFile) return;
+    if (!this.selectedFile || this.currentVideoIndex === null) return;
 
     this.loading = true;
     this.landingPageService.uploadMedia(this.selectedFile, 'video').subscribe({
-        next: (response) => {
-        this.videos[this.currentVideoIndex].url = response.url;
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Video uploaded successfully'
-          });
+      next: (response) => {
+        // Directly update the video at the current index
+        this.videos[this.currentVideoIndex!] = {
+          ...this.videos[this.currentVideoIndex!],
+          url: response.url
+        };
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Exito',
+          detail: 'Video subido correctamente'
+        });
         this.loading = false;
         this.selectedFile = null;
         this.loadUploadedVideos();
-        },
+      },
       error: (error) => {
         console.error('Error uploading video:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to upload video'
-          });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al subir el video'
+        });
         this.loading = false;
-        }
-      });
-    }
+      }
+    });
+  }
 
   cancelUpload() {
     this.selectedFile = null;
   }
 
-  selectVideo(video: VideoItem) {
-    if (this.currentVideoIndex !== null) {
-      this.videos[this.currentVideoIndex].url = video.url;
-      this.videos[this.currentVideoIndex].title = video.title;
-      this.videos[this.currentVideoIndex].description = video.description;
-      this.showVideoSelector = false;
-      this.currentVideoIndex = 0;
-    }
-  }
-
   removeVideo(index: number) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to remove this video?',
+      message: '¿Estás seguro de querer eliminar este video?',
       accept: () => {
+        // Directly update the video at the index
         this.videos[index] = { title: '', description: '', url: '' };
       }
     });
@@ -168,8 +177,8 @@ export class VideosEditorComponent implements OnInit {
     if (invalidVideos.length > 0) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Validation Error',
-        detail: 'All videos must have a video file uploaded'
+        summary: 'Error de validación',
+        detail: 'Todos los videos deben tener un archivo de video subido'
       });
       return;
     }
@@ -177,11 +186,11 @@ export class VideosEditorComponent implements OnInit {
     this.saving = true;
     this.landingPageService.updateVideos(this.videos).subscribe({
       next: () => {
-    this.update.emit(this.videos);
+        this.update.emit(this.videos);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Videos updated successfully'
+          summary: 'Exito',
+          detail: 'Videos actualizados correctamente'
         });
         this.saving = false;
       },
@@ -190,7 +199,7 @@ export class VideosEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update videos'
+          detail: 'Error al actualizar los videos'
         });
         this.saving = false;
       }

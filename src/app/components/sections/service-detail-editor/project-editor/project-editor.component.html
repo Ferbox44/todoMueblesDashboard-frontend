@@ -1,27 +1,27 @@
 <div class="project-editor">
   <div class="form-group">
-    <label for="title">Title</label>
+    <label for="title">Título</label>
     <input id="title" type="text" pInputText [(ngModel)]="project.title" />
   </div>
 
   <div class="form-group">
-    <label for="description">Description</label>
+    <label for="description">Descripción</label>
     <textarea id="description" pInputTextarea [(ngModel)]="project.description" rows="4"></textarea>
   </div>
 
   <div class="form-group">
-    <label for="image">Main Image</label>
+    <label for="image">Imagen principal</label>
     <div class="image-preview" *ngIf="project.image">
       <img [src]="project.image" alt="Project main image" />
       <div class="image-preview-overlay">
-        <span class="preview-label">Main Image</span>
+        <span class="preview-label">Imagen principal</span>
       </div>
     </div>
-    <p-button label="Change Image" (click)="currentImageType = 'main'; showImageSelector = true"></p-button>
+    <p-button label="Cambiar imagen" (click)="currentImageType = 'main'; showImageSelector = true"></p-button>
   </div>
 
   <div class="materials-section">
-    <h3>Materials</h3>
+    <h3>Materiales</h3>
     <div class="image-grid">
       <div class="image-item" *ngFor="let image of materialImages; let i = index">
         <img [src]="image.url" [alt]="image.title" />
@@ -39,7 +39,7 @@
   </div>
 
   <div class="accessories-section">
-    <h3>Accessories</h3>
+    <h3>Accesorios</h3>
     <div class="image-grid">
       <div class="image-item" *ngFor="let image of accessoryImages; let i = index">
         <img [src]="image.url" [alt]="image.title" />
@@ -47,7 +47,7 @@
           <p-button icon="pi pi-trash" (click)="removeImage(i)" severity="danger"></p-button>
         </div>
         <div class="image-preview-overlay">
-          <span class="preview-label">Accessory {{i + 1}}</span>
+          <span class="preview-label">Accesorio {{i + 1}}</span>
         </div>
       </div>
       <div class="add-image">
@@ -64,7 +64,7 @@
 
 <p-dialog [(visible)]="showImageSelector" [style]="{width: '50vw'}" [modal]="true">
   <ng-template pTemplate="header">
-    <h3>Select Image</h3>
+    <h3>Elegir imagen</h3>
   </ng-template>
   <div class="upload-container">
     <div class="upload-section">
@@ -76,11 +76,11 @@
           [showUploadButton]="false"
           [accept]="'image/*'"
           (onSelect)="onFileSelect($event)"
-          chooseLabel="Choose Image"
+          chooseLabel="Elegir imagen"
           [disabled]="isUploading"
         ></p-fileUpload>
         <button pButton 
-          label="Select from Uploaded" 
+          label="Elegir imagen" 
           icon="pi pi-images" 
           (click)="openImageSelector(currentImageType || 'material')"
           class="p-button-secondary"
@@ -90,14 +90,14 @@
 
       <div *ngIf="selectedFile" class="upload-actions">
         <p-button
-          label="Upload to S3"
+          label="Subir a S3"
           icon="pi pi-upload"
           (onClick)="uploadSelectedFile()"
           [loading]="isUploading"
           [disabled]="isUploading"
         ></p-button>
         <p-button
-          label="Cancel"
+          label="Cancelar"
           icon="pi pi-times"
           (onClick)="cancelUpload()"
           [disabled]="isUploading"
@@ -110,7 +110,7 @@
            alt="Current Image" 
            class="preview-image">
       <div class="preview-overlay">
-        <span class="preview-label">Current Image</span>
+        <span class="preview-label">Imagen actual</span>
       </div>
     </div>
     <div class="image-grid" *ngIf="uploadedImages.length > 0">

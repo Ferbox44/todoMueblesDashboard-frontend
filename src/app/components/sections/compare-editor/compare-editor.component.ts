@@ -64,7 +64,7 @@ export class CompareEditorComponent {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load images'
+          detail: 'Error al cargar las imágenes'
         });
       }
     });
@@ -94,7 +94,7 @@ export class CompareEditorComponent {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-          detail: 'Image uploaded successfully'
+          detail: 'Imagen subida correctamente'
           });
         this.loading = false;
         this.selectedFile = null;
@@ -105,7 +105,7 @@ export class CompareEditorComponent {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-          detail: 'Failed to upload image'
+          detail: 'Error al subir la imagen'
           });
         this.loading = false;
         }
@@ -131,8 +131,8 @@ export class CompareEditorComponent {
       next: () => {
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-          detail: 'Compare section updated successfully'
+            summary: 'Exito',
+          detail: 'Sección de comparación actualizada correctamente'
           });
         this.saving = false;
         },
@@ -140,7 +140,7 @@ export class CompareEditorComponent {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-          detail: 'Failed to update compare section'
+          detail: 'Error al actualizar la sección de comparación'
           });
         this.saving = false;
         }

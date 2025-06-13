@@ -71,7 +71,7 @@ export class ServicesEditorComponent {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load images'
+          detail: 'Error al cargar las imágenes'
         });
       }
     });
@@ -159,11 +159,11 @@ export class ServicesEditorComponent {
   onServiceChange() {
     // Validate service data
     const invalidServices = this.services.filter(service => !service.title || !service.image);
-    if (invalidServices.length > 0) {
+    if (invalidServices.length < 0) {
       this.messageService.add({
         severity: 'warn',
-        summary: 'Validation',
-        detail: 'Please fill in all required fields for each service'
+        summary: 'Validación',
+        detail: 'Por favor complete todos los campos requeridos para cada servicio'
       });
     }
   }

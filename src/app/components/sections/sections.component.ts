@@ -89,8 +89,8 @@ export class SectionsComponent implements OnInit {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Hero section updated successfully'
+          summary: 'Éxito',
+          detail: 'Sección principal actualizada correctamente'
         });
         this.loadContent();
       },
@@ -98,7 +98,7 @@ export class SectionsComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update hero section'
+          detail: 'Error al actualizar la sección hero'
         });
       }
     });
@@ -109,8 +109,8 @@ export class SectionsComponent implements OnInit {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Services carousel updated successfully'
+          summary: 'Éxito',
+          detail: 'Carrusel de servicios actualizado correctamente'
         });
         this.loadContent();
       },
@@ -118,7 +118,7 @@ export class SectionsComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update services carousel'
+          detail: 'Error al actualizar el carrusel de servicios'
         });
       }
     });
@@ -129,8 +129,8 @@ export class SectionsComponent implements OnInit {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Videos updated successfully'
+          summary: 'Éxito',
+          detail: 'Videos actualizados correctamente'
         });
         this.loadContent();
       },
@@ -138,7 +138,7 @@ export class SectionsComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update videos'
+          detail: 'Error al actualizar los videos'
         });
       }
     });
@@ -149,8 +149,8 @@ export class SectionsComponent implements OnInit {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Compare section updated successfully'
+          summary: 'Éxito',
+          detail: 'Sección de comparación actualizada correctamente'
         });
         this.loadContent();
       },
@@ -158,7 +158,7 @@ export class SectionsComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update compare section'
+          detail: 'Error al actualizar la sección de comparación'
         });
       }
     });
@@ -169,8 +169,8 @@ export class SectionsComponent implements OnInit {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Brands carousel updated successfully'
+          summary: 'Éxito',
+          detail: 'Carrusel de marcas actualizado correctamente'
         });
         this.loadContent();
       },
@@ -178,7 +178,7 @@ export class SectionsComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update brands carousel'
+          detail: 'Error al actualizar el carrusel de marcas'
         });
       }
     });

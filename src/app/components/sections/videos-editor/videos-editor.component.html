@@ -50,14 +50,14 @@
 
                 <div *ngIf="selectedFile" class="upload-actions">
                   <p-button
-                    label="Upload to S3"
+                    label="Subir a S3"
                     icon="pi pi-upload"
                     (onClick)="uploadSelectedFile()"
                     [loading]="loading"
                     [disabled]="loading || saving"
                   ></p-button>
                   <p-button
-                    label="Cancel"
+                    label="Cancelar"
                     icon="pi pi-times"
                     (onClick)="cancelUpload()"
                     [disabled]="loading || saving"
@@ -72,27 +72,7 @@
           </div>
 
           <!-- Video Title -->
-          <div class="field">
-            <label>Title</label>
-        <input
-          type="text"
-          pInputText
-          [(ngModel)]="video.title"
-              placeholder="Enter video title"
-              [disabled]="loading || saving">
-      </div>
-
-          <!-- Video Description -->
-          <div class="field">
-            <label>Description</label>
-        <textarea
-          pInputTextarea
-          [(ngModel)]="video.description"
-          placeholder="Enter video description"
-              [rows]="3"
-              [disabled]="loading || saving">
-        </textarea>
-      </div>
+          
 
           <!-- Remove Button -->
           <p-button
@@ -108,7 +88,7 @@
     <!-- Loading Overlay -->
     <div class="loading-overlay" *ngIf="loading || saving">
       <p-progressSpinner></p-progressSpinner>
-      <span>{{ saving ? 'Saving changes...' : 'Uploading video...' }}</span>
+      <span>{{ saving ? 'Guardando cambios...' : 'Subiendo video...' }}</span>
     </div>
   </div>
 

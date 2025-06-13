@@ -100,7 +100,7 @@ export class ProjectEditorComponent {
 
   deleteProject() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this project?',
+      message: '¿Estás seguro de querer eliminar este proyecto?',
       accept: () => {
         this.delete.emit(this.project.id);
       }
@@ -116,7 +116,7 @@ export class ProjectEditorComponent {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load images'
+          detail: 'Error al cargar las imágenes'
         });
       }
     });
@@ -128,11 +128,19 @@ export class ProjectEditorComponent {
     if (this.currentImageType === 'main') {
       this.project.image = image.url;
     } else if (this.currentImageType === 'material' || this.currentImageType === 'accessory') {
-      this.project.images?.push({
+      this.project.images = this.project.images || [];
+      this.project.images.push({
         url: image.url,
         type: this.currentImageType,
         title: this.currentImageType === 'material' ? 'Material' : 'Accessory'
       });
+      
+      // Update the corresponding image array
+      if (this.currentImageType === 'material') {
+        this.materialImages = this.project.images.filter(img => img.type === 'material');
+      } else {
+        this.accessoryImages = this.project.images.filter(img => img.type === 'accessory');
+      }
     }
     this.showImageSelector = false;
     this.currentImageType = null;
@@ -167,14 +175,14 @@ export class ProjectEditorComponent {
           this.project.images?.push({
             url: response.url,
             type: 'accessory',
-            title: 'Accessory'
+            title: 'Accesorio'
           });
         }
         
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Image uploaded successfully'
+          summary: 'Éxito',
+          detail: 'Imagen subida correctamente'
         });
         
         this.loadImages();
@@ -186,7 +194,7 @@ export class ProjectEditorComponent {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to upload image'
+          detail: 'Error al subir la imagen'
         });
         this.isUploading = false;
       }

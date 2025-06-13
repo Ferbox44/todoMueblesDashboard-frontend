@@ -17,6 +17,7 @@ export interface VideoItem {
   url: string;
   title?: string;
   description?: string;
+  index?: number;
 }
 
 export interface BrandItem {

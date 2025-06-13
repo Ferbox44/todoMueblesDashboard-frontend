@@ -74,7 +74,7 @@ export class ServiceDetailEditorComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Error loading service detail';
+        this.error = 'Error al cargar el detalle del servicio';
         this.loading = false;
         console.error('Error loading service detail:', error);
       }
@@ -91,7 +91,7 @@ export class ServiceDetailEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load images'
+          detail: 'Error al cargar las imágenes'
         });
       }
     });
@@ -110,8 +110,8 @@ export class ServiceDetailEditorComponent implements OnInit {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Service detail updated successfully'
+          summary: 'Éxito',
+          detail: 'Detalle del servicio actualizado correctamente'
         });
         this.saving = false;
       },
@@ -119,7 +119,7 @@ export class ServiceDetailEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to update service detail'
+          detail: 'Error al actualizar el detalle del servicio'
         });
         console.error('Error updating service detail:', error);
         this.saving = false;
@@ -154,15 +154,15 @@ export class ServiceDetailEditorComponent implements OnInit {
           this.showProjectEditor = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Project added successfully'
+            summary: 'Éxito',
+            detail: 'Proyecto agregado correctamente'
           });
         },
         error: (error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to add project'
+            detail: 'Error al agregar el proyecto'
           });
           console.error('Error adding project:', error);
         }
@@ -173,7 +173,7 @@ export class ServiceDetailEditorComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Cannot update project without an ID'
+          detail: 'No se puede actualizar el proyecto sin un ID'
         });
         return;
       }
@@ -185,15 +185,15 @@ export class ServiceDetailEditorComponent implements OnInit {
           this.showProjectEditor = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Project updated successfully'
+            summary: 'Éxito',
+            detail: 'Proyecto actualizado correctamente'
           });
         },
         error: (error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to update project'
+            detail: 'Error al actualizar el proyecto'
           });
           console.error('Error updating project:', error);
         }
@@ -212,15 +212,15 @@ export class ServiceDetailEditorComponent implements OnInit {
         this.showProjectEditor = false;
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Project deleted successfully'
+          summary: 'Éxito',
+          detail: 'Proyecto eliminado correctamente'
         });
       },
       error: (error) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to delete project'
+          detail: 'Error al eliminar el proyecto'
         });
         console.error('Error deleting project:', error);
       }
@@ -251,34 +251,34 @@ export class ServiceDetailEditorComponent implements OnInit {
 
     this.isUploading = true;
     this.uploadService.uploadFile(this.selectedFile).subscribe({
-        next: (response) => {
+      next: (response) => {
         if (this.currentImageType === 'material') {
           this.serviceDetail!.backgroundImage = response.url;
         } else if (this.currentImageType === 'accessory') {
           this.serviceDetail!.backgroundImage = response.url;
         }
         
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-          detail: 'Image uploaded successfully'
-          });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Imagen subida correctamente'
+        });
         
         this.loadImages();
         this.selectedFile = null;
         this.isUploading = false;
-        },
-        error: (error) => {
+      },
+      error: (error) => {
         console.error('Error uploading file:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-          detail: 'Failed to upload image'
-          });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al subir la imagen'
+        });
         this.isUploading = false;
-        }
-      });
-    }
+      }
+    });
+  }
 
   cancelUpload() {
     this.selectedFile = null;

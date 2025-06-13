@@ -32,16 +32,6 @@ export class MenuComponent implements OnInit {
         console.log(services);
         this.items = [
           {
-            label: 'Inicio',
-            icon: 'pi pi-home',
-            routerLink: ['/inicio']
-          },
-          {
-            label: 'Estadisticas',
-            icon: 'pi pi-chart-bar',
-            routerLink: ['/estadisticas']
-          },
-          {
             label: 'Citas',
             icon: 'pi pi-calendar',
             routerLink: ['/citas']
@@ -71,11 +61,7 @@ export class MenuComponent implements OnInit {
                   }
                 ]
               },
-              {
-                label: 'Nosotros',
-                icon: 'pi pi-pencil',
-                routerLink: ['/nosotros']
-              }
+              
             ]
           },
           {
