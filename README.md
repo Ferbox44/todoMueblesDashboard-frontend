@@ -5,7 +5,7 @@ A modern Angular dashboard application for managing the Todo Muebles furniture s
 Note: This project is intended to work with it's frontend project:
 
 ```bash
-https://github.com/Ferbox44/todoMueblesDashboard-backend?tab=readme-ov-file#project-structure
+https://github.com/Ferbox44/todoMueblesDashboard-backend
 ```
 
 ## 📋 Table of Contents
