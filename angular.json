@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "santino-dashboard": {
+    "todomuebles-dashboard": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/santino-dashboard",
+            "outputPath": "dist/todomuebles-dashboard",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "santino-dashboard:build:production"
+              "buildTarget": "todomuebles-dashboard:build:production"
             },
             "development": {
-              "buildTarget": "santino-dashboard:build:development"
+              "buildTarget": "todomuebles-dashboard:build:development"
             }
           },
           "defaultConfiguration": "development"

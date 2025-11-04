@@ -17,7 +17,7 @@ export interface LoginResponse {
 })
 export class AuthService {
   private readonly TOKEN_KEY = 'access_token';
-  private readonly API_URL = 'http://localhost:3000/api/auth'; // Update this with your NestJS backend URL
+  private readonly API_URL = 'http://localhost:3001/api/auth'; // Update this with your NestJS backend URL
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(
